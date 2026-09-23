@@ -42,11 +42,61 @@ if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
   document.addEventListener('mouseleave', ()=>glow.classList.remove('active'));
 }
 
-// ---- Scroll reveal (bidireccional: aparece al bajar, se oculta al subir) ----
+// ---- Scroll reveal (bidireccional) + contadores animados, unificado en un solo observer ----
 const revealEls = document.querySelectorAll('.reveal');
+const runningAnims = new WeakMap();
+
+function animateCounter(el){
+  const target = parseInt(el.dataset.target, 10);
+  if (isNaN(target)) return;
+
+  const prevId = runningAnims.get(el);
+  if (prevId) cancelAnimationFrame(prevId);
+
+  const duration = 1600;
+  const startTime = performance.now();
+  let lastText = '';
+
+  const step = (now) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const value = Math.floor(eased * target);
+    const text = value.toLocaleString('es-CO');
+    if (text !== lastText) { el.textContent = text; lastText = text; }
+
+    if (progress < 1) {
+      const id = requestAnimationFrame(step);
+      runningAnims.set(el, id);
+    } else {
+      el.textContent = target.toLocaleString('es-CO');
+      runningAnims.delete(el);
+    }
+  };
+
+  const id = requestAnimationFrame(step);
+  runningAnims.set(el, id);
+}
+
+function resetCounter(el){
+  const id = runningAnims.get(el);
+  if (id) cancelAnimationFrame(id);
+  runningAnims.delete(el);
+  el.textContent = '0';
+}
+
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(en=>{
     en.target.classList.toggle('visible', en.isIntersecting);
+
+    // Si esta tarjeta .reveal contiene un contador, lo animamos/reiniciamos
+    // con la MISMA lectura de intersección — sin un segundo observer compitiendo
+    // por calcular la geometría de un elemento que se está transformando.
+    const counter = en.target.querySelector('.count');
+    if (counter) {
+      if (en.isIntersecting) animateCounter(counter);
+      else resetCounter(counter);
+    }
   });
 }, {threshold:0.15, rootMargin:'0px 0px -6% 0px'});
 revealEls.forEach(el=>io.observe(el));
@@ -95,61 +145,7 @@ if (sectorCarousel) {
   }, 4500);
 }
 
-// ---- Contador animado de indicadores (bidireccional) ----
-const counters = document.querySelectorAll('.count');
-
-if (counters.length) {
-  const runningAnims = new WeakMap();
-
-  const animateCounter = (el) => {
-    const target = parseInt(el.dataset.target, 10);
-    if (isNaN(target)) return;
-
-    const prevId = runningAnims.get(el);
-    if (prevId) cancelAnimationFrame(prevId);
-
-    const duration = 1600;
-    const startTime = performance.now();
-
-    const step = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const value = Math.floor(eased * target);
-      el.textContent = value.toLocaleString('es-CO');
-
-      if (progress < 1) {
-        const id = requestAnimationFrame(step);
-        runningAnims.set(el, id);
-      } else {
-        el.textContent = target.toLocaleString('es-CO');
-        runningAnims.delete(el);
-      }
-    };
-
-    const id = requestAnimationFrame(step);
-    runningAnims.set(el, id);
-  };
-
-  const resetCounter = (el) => {
-    const id = runningAnims.get(el);
-    if (id) cancelAnimationFrame(id);
-    runningAnims.delete(el);
-    el.textContent = '0';
-  };
-
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-      } else {
-        resetCounter(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-
-  counters.forEach(c => counterObserver.observe(c));
-}
+// (El contador animado de indicadores ahora vive dentro del observer de .reveal, más arriba)
 
 // ---- Pop-up escalonado para marcas y certificaciones (bidireccional) ----
 const revealPops = document.querySelectorAll('.reveal-pop');
@@ -176,8 +172,9 @@ if (revealPops.length) {
   let ticking  = false;
   let currentVideoTime = 0;
   let targetVideoTime  = 0;
+  let scrubLoopRunning = false;
 
-  const onMeta = () => { duration = heroVideo.duration || 0; };
+  const onMeta = () => { duration = heroVideo.duration || 0; update(); };
   heroVideo.addEventListener('loadedmetadata', onMeta);
   if (heroVideo.readyState >= 1) onMeta();
   heroVideo.pause();
@@ -192,7 +189,21 @@ if (revealPops.length) {
         try { heroVideo.currentTime = currentVideoTime; } catch(e){}
       }
     }
+
+    // Si ya alcanzamos el objetivo, detenemos el loop: no tiene sentido seguir
+    // gastando un frame cada 16ms en el resto de la página (indicadores, etc.)
+    if (Math.abs(targetVideoTime - currentVideoTime) < 0.01) {
+      scrubLoopRunning = false;
+      return;
+    }
     requestAnimationFrame(scrubLoop);
+  }
+
+  function ensureScrubLoop(){
+    if (!scrubLoopRunning) {
+      scrubLoopRunning = true;
+      requestAnimationFrame(scrubLoop);
+    }
   }
 
   function rangeProgress(p, start, end){
@@ -210,7 +221,10 @@ if (revealPops.length) {
     let progress = (scrollTop - start) / total;
     progress = Math.min(Math.max(progress, 0), 1);
 
-    if (duration) targetVideoTime = progress * duration;
+    if (duration) {
+      targetVideoTime = progress * duration;
+      ensureScrubLoop();
+    }
 
     // Capa A: visible al inicio, se desvanece entre 0.05 y 0.30
     if (layerA) {
@@ -239,7 +253,6 @@ if (revealPops.length) {
   window.addEventListener('load', update);
   window.addEventListener('resize', update);
   update();
-  scrubLoop();
 })();
 
 // ---- Botón "Volver arriba" ----
