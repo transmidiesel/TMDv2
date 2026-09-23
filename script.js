@@ -2,11 +2,34 @@
 // TRANSMIDIESEL — Interacciones
 // =========================================================
 
-// ---- Navbar scroll transform ----
+// ---- Navbar scroll transform (se encoge cuando el hero termina) ----
 const navHeader = document.getElementById('navHeader');
-window.addEventListener('scroll', () => {
-  navHeader.classList.toggle('scrolled', window.scrollY > 40);
-}, {passive:true});
+
+function updateNavbarState(){
+  if (!navHeader) return;
+
+  const heroScrollEl = document.getElementById('inicio');
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+  let trigger = 40; // fallback
+
+  if (heroScrollEl) {
+    // Calculamos la posición real del final del hero en el documento
+    const rect = heroScrollEl.getBoundingClientRect();
+    const heroTop = rect.top + scrollTop;              // dónde empieza el hero en el documento
+    const heroHeight = heroScrollEl.offsetHeight;      // alto total del hero (300vh)
+    const heroEnd = heroTop + heroHeight - window.innerHeight; // momento en que el sticky se suelta
+
+    trigger = Math.max(heroEnd - 40, 40);              // 40px de margen
+  }
+
+  navHeader.classList.toggle('scrolled', scrollTop > trigger);
+}
+
+window.addEventListener('scroll', updateNavbarState, {passive:true});
+window.addEventListener('resize', updateNavbarState);
+window.addEventListener('load', updateNavbarState);
+updateNavbarState();
 
 // ---- Cursor glow (desktop only) ----
 const glow = document.getElementById('cursorGlow');
@@ -71,7 +94,8 @@ if (sectorCarousel) {
     showSector(current);
   }, 4500);
 }
-// ---- Contador animado de indicadores (bidireccional: se reinicia al salir, se anima al volver a entrar) ----
+
+// ---- Contador animado de indicadores (bidireccional) ----
 const counters = document.querySelectorAll('.count');
 
 if (counters.length) {
@@ -81,17 +105,15 @@ if (counters.length) {
     const target = parseInt(el.dataset.target, 10);
     if (isNaN(target)) return;
 
-    // Si ya hay una animación corriendo sobre este elemento, la cancelamos primero
     const prevId = runningAnims.get(el);
     if (prevId) cancelAnimationFrame(prevId);
 
-    const duration = 1600;          // duración total en ms
+    const duration = 1600;
     const startTime = performance.now();
 
     const step = (now) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // easing suave (easeOutCubic)
       const eased = 1 - Math.pow(1 - progress, 3);
       const value = Math.floor(eased * target);
       el.textContent = value.toLocaleString('es-CO');
@@ -128,6 +150,7 @@ if (counters.length) {
 
   counters.forEach(c => counterObserver.observe(c));
 }
+
 // ---- Pop-up escalonado para marcas y certificaciones (bidireccional) ----
 const revealPops = document.querySelectorAll('.reveal-pop');
 if (revealPops.length) {
@@ -159,7 +182,6 @@ if (revealPops.length) {
   if (heroVideo.readyState >= 1) onMeta();
   heroVideo.pause();
 
-  // Loop continuo para suavizar el scrub del video
   function scrubLoop(){
     if (duration) {
       currentVideoTime += (targetVideoTime - currentVideoTime) * 0.15;
@@ -173,7 +195,6 @@ if (revealPops.length) {
     requestAnimationFrame(scrubLoop);
   }
 
-  // Mapea un progreso [0..1] a un rango [inicio..fin] con clamp
   function rangeProgress(p, start, end){
     return Math.min(Math.max((p - start) / (end - start), 0), 1);
   }
@@ -189,24 +210,22 @@ if (revealPops.length) {
     let progress = (scrollTop - start) / total;
     progress = Math.min(Math.max(progress, 0), 1);
 
-    // Video objetivo (interpolado en scrubLoop)
     if (duration) targetVideoTime = progress * duration;
 
-    // --- Capa A: visible al inicio, se desvanece entre 0.05 y 0.30 de progreso ---
+    // Capa A: visible al inicio, se desvanece entre 0.05 y 0.30
     if (layerA) {
       const aOpacity = 1 - rangeProgress(progress, 0.05, 0.30);
       layerA.style.opacity = aOpacity;
       layerA.style.transform = `translateY(-50%) translateY(${(1 - aOpacity) * -30}px)`;
     }
 
-    // --- Capa B: aparece entre 0.35 y 0.60 de progreso, se queda hasta el final ---
+    // Capa B: aparece entre 0.35 y 0.60, se queda hasta el final
     if (layerB) {
       const bOpacity = rangeProgress(progress, 0.35, 0.60);
       layerB.style.opacity = bOpacity;
       layerB.style.transform = `translateY(-50%) translateY(${(1 - bOpacity) * 30}px)`;
     }
 
-    // --- Hint de scroll: se desvanece apenas empiezas a bajar ---
     if (scrollHint) scrollHint.style.opacity = Math.max(1 - progress * 6, 0);
   }
 
@@ -222,16 +241,16 @@ if (revealPops.length) {
   update();
   scrubLoop();
 })();
+
 // ---- Botón "Volver arriba" ----
 (function(){
   const backTop = document.getElementById('backTop');
   const heroSection = document.getElementById('inicio');
   if (!backTop) return;
 
-  // Mostrar el botón cuando salimos del hero
   function updateBackTop(){
     const heroHeight = heroSection ? heroSection.offsetHeight : 600;
-    const trigger = heroHeight * 0.6; // aparece al 60% del hero
+    const trigger = heroHeight * 0.6;
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
     if (scrollTop > trigger) {
@@ -241,12 +260,73 @@ if (revealPops.length) {
     }
   }
 
-  // Scroll suave hasta arriba al hacer clic
   backTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   window.addEventListener('scroll', updateBackTop, { passive: true });
   window.addEventListener('resize', updateBackTop);
-  updateBackTop(); // estado inicial
+  updateBackTop();
+})();
+// ---- Transición entre páginas ----
+(function(){
+  const pageContent = document.getElementById('pageContent');
+  const pageTransition = document.getElementById('pageTransition');
+  if (!pageContent) return;
+
+  // Al cargar, si venimos de una transición interna, hacemos la animación de entrada
+  window.addEventListener('pageshow', () => {
+    if (sessionStorage.getItem('pageTransitioning') === '1') {
+      sessionStorage.removeItem('pageTransitioning');
+
+      pageContent.classList.add('is-entering');
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          pageContent.classList.remove('is-entering');
+          if (pageTransition) pageTransition.classList.remove('active');
+        });
+      });
+    } else {
+      if (pageTransition) pageTransition.classList.remove('active');
+    }
+  });
+
+  // Interceptamos clics en enlaces internos
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    if (link.target === '_blank') return;
+    const href = link.getAttribute('href');
+    if (!href) return;
+    if (href.startsWith('#')) return;
+    if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+    if (link.hasAttribute('download')) return;
+    if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//')) return;
+
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    const targetPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '');
+    if (currentPath === targetPath && !href.includes('#')) return;
+
+    e.preventDefault();
+
+    sessionStorage.setItem('pageTransitioning', '1');
+
+    pageContent.classList.add('is-leaving');
+    if (pageTransition) pageTransition.classList.add('active');
+
+    const delay = 380; // un poco menos que .42s para que fluya
+    setTimeout(() => {
+      window.location.href = link.href;
+    }, delay);
+  });
+
+  // Manejo del botón "atrás" del navegador (bfcache)
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      pageContent.classList.remove('is-leaving', 'is-entering');
+      if (pageTransition) pageTransition.classList.remove('active');
+    }
+  });
 })();
