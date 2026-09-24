@@ -648,10 +648,10 @@ section{padding:72px 0;position:relative;}
 
 /* ---------- Footer ---------- */
 footer{
-  padding:70px 0 30px;border-top:1px solid var(--glass-border);
+  padding:60px 0 28px;border-top:1px solid var(--glass-border);
   background:linear-gradient(180deg, transparent, rgba(15,62,104,0.03));
 }
-.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:38px;}
 @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
 @media (max-width:560px){.footer-grid{grid-template-columns:1fr;}}
 .footer-grid h4{font-size:13.5px;color:var(--metal-light);font-weight:600;margin:0 0 16px;}
@@ -663,8 +663,19 @@ footer{
   padding-top:26px;border-top:1px solid var(--glass-border);color:var(--metal-light);font-size:13px;
 }
 .social-row{display:flex;gap:10px;}
-.social-row a{width:38px;height:38px;border-radius:10px;background:var(--glass-bg-strong);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;transition:.3s;color:var(--text-primary);}
-.social-row a:hover{background:var(--accent-dim);border-color:var(--accent-bright);color:var(--accent);}
+.social-row a{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--glass-bg-strong);border:1px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;color:var(--text-primary);
+}
+.social-row a:hover{
+  background:var(--accent-dim);border-color:var(--accent-bright);
+  color:var(--accent);transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(15,62,104,0.15);
+}
+.social-row a svg{width:18px;height:18px;display:block;transition:transform .3s var(--ease);}
+.social-row a:hover svg{transform:scale(1.12);}
 
 /* ---------- WhatsApp float module ---------- */
 .wa-float{
@@ -1185,7 +1196,7 @@ a:focus-visible, button:focus-visible{outline:2px solid var(--accent-bright);out
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:16px 12px;
+  padding:20px 14px;         /* antes 16px 12px — un poco más de aire */
   cursor:pointer;
   transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
 }
@@ -1196,7 +1207,7 @@ a:focus-visible, button:focus-visible{outline:2px solid var(--accent-bright);out
 }
 .cert-card .cert-logo{
   width:100%;
-  height:70px;
+  height:110px;              /* antes 70px — más alto = logo más grande */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -1328,4 +1339,523 @@ body::after{
 @keyframes bgFloat2{
   0%{transform:translate3d(1%, 1%, 0) scale(1);}
   100%{transform:translate3d(-2%, -1%, 0) scale(1.06);}
+}
+/* ---------- Footer: certificaciones (organizadas en la parte inferior, sin recuadros) ---------- */
+.footer-certs-strip{
+  padding:32px 0 28px;
+  border-top:1px solid var(--glass-border);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+.footer-certs{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:44px;
+  margin:0;
+  padding:0;
+}
+.footer-cert{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  padding:4px 8px;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .3s var(--ease), opacity .3s var(--ease);
+}
+
+/* ==========================================================================
+   TAMAÑO DE LOS LOGOS DE CERTIFICADOS (EDITA AQUÍ A TU GUSTO):
+   - 'height': Altura principal del logo (puedes probar 60px, 70px, 80px, etc.)
+   - 'max-height': Altura máxima permitida
+   - 'max-width': Ancho máximo permitido (para logos anchos como Coface o Dimar)
+   ========================================================================== */
+.footer-cert img{
+  height:62px;               /* <-- Modifica este valor (ej: 60px, 70px, 80px) */
+  max-height:68px;
+  max-width:190px;
+  width:auto;
+  object-fit:contain;
+  filter:grayscale(0.06) opacity(0.92);
+  transition:transform .3s var(--ease), filter .3s var(--ease), opacity .3s var(--ease);
+}
+.footer-cert:hover{
+  transform:translateY(-3px);
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+.footer-cert:hover img{
+  filter:grayscale(0) opacity(1) drop-shadow(0 8px 22px rgba(15,62,104,0.22));
+  transform:scale(1.08);
+}
+@media (max-width:768px){
+  .footer-certs{gap:26px 32px;}
+  .footer-cert img{height:46px;max-height:50px;max-width:140px;}
+}
+@media (max-width:540px){
+  .footer-certs-strip{padding:22px 0 20px;}
+  .footer-certs{gap:20px 24px;}
+  .footer-cert{padding:2px 4px;}
+  .footer-cert img{height:38px;max-height:42px;max-width:115px;}
+}
+
+/* ==========================================================================
+   PÁGINA CONTÁCTENOS: FORMULARIO, HORARIOS Y CANALES DE CONTACTO
+   ========================================================================== */
+.contact-hero{
+  padding-top:160px;
+  padding-bottom:30px;
+}
+.contact-main-grid{
+  display:grid;
+  grid-template-columns:1.25fr 1fr;
+  gap:36px;
+  align-items:start;
+  margin-bottom:60px;
+}
+@media (max-width:960px){
+  .contact-main-grid{grid-template-columns:1fr;gap:28px;}
+}
+
+/* Tarjeta del formulario */
+.contact-form-card{
+  padding:38px 40px;
+  border-radius:20px;
+}
+@media (max-width:600px){
+  .contact-form-card{padding:26px 20px;}
+}
+.contact-form-card h2{
+  font-family:var(--font-display);
+  font-size:clamp(22px,2.4vw,28px);
+  margin:0 0 8px;
+  color:var(--text-primary);
+}
+.contact-form-card p.form-desc{
+  color:var(--metal-light);
+  font-size:14.5px;
+  margin:0 0 26px;
+  line-height:1.55;
+}
+
+/* Filas y campos del formulario */
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+@media (max-width:640px){
+  .form-row{grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-bottom:18px;
+}
+.form-row .form-group{margin-bottom:0;}
+.form-label{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--text-primary);
+  display:flex;
+  align-items:center;
+}
+.form-req{
+  color:#d9383a;
+  margin-left:3px;
+  font-weight:bold;
+}
+.form-input, .form-select, .form-textarea{
+  width:100%;
+  box-sizing:border-box;
+  background:#ffffff;
+  border:1.5px solid rgba(15,62,104,0.18);
+  border-radius:12px;
+  padding:12px 16px;
+  font-family:var(--font-body);
+  font-size:14.5px;
+  color:var(--text-primary);
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus{
+  border-color:var(--accent-bright);
+  box-shadow:0 0 0 4px rgba(47,111,168,0.15);
+  outline:none;
+}
+.form-input::placeholder, .form-textarea::placeholder{
+  color:#8c9ba5;
+  font-size:14px;
+}
+.form-textarea{
+  resize:vertical;
+  min-height:120px;
+  line-height:1.55;
+}
+.form-select{
+  cursor:pointer;
+  background-color:#ffffff;
+}
+.form-actions{
+  margin-top:24px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.form-actions .neu-btn{
+  min-width:200px;
+  justify-content:center;
+}
+
+/* Alertas de estado de envío */
+.form-status{
+  margin-top:20px;
+  padding:16px 20px;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.5;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  animation:fadeSlideIn .3s ease;
+}
+@keyframes fadeSlideIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.form-status.success{
+  background:rgba(46,125,50,0.08);
+  border:1.5px solid rgba(46,125,50,0.35);
+  color:#1b5e20;
+}
+.form-status.error{
+  background:rgba(211,47,47,0.08);
+  border:1.5px solid rgba(211,47,47,0.35);
+  color:#b71c1c;
+}
+.form-status .ic-status{
+  font-size:18px;
+  flex-shrink:0;
+  line-height:1.2;
+}
+
+/* Columna lateral: Horarios e información directa */
+.contact-side-stack{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+.hours-card{
+  padding:32px;
+  border-radius:20px;
+}
+.hours-card .hours-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--glass-border);
+}
+.hours-card .hours-head svg{
+  color:var(--accent-bright);
+  flex-shrink:0;
+}
+.hours-card .hours-head h3{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:20px;
+  color:var(--text-primary);
+}
+.hours-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.hours-item{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.hours-day{
+  font-size:14px;
+  font-weight:700;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.hours-time{
+  font-size:14.5px;
+  color:var(--text-primary);
+  font-weight:500;
+  background:rgba(15,62,104,0.04);
+  padding:8px 12px;
+  border-radius:8px;
+  border-left:3px solid var(--accent-bright);
+  display:inline-block;
+}
+.hours-note{
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px dashed var(--glass-border);
+  font-size:13px;
+  color:var(--metal-light);
+  line-height:1.5;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.hours-dot-online{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#2e7d32;
+  box-shadow:0 0 0 3px rgba(46,125,50,0.2);
+  display:inline-block;
+  flex-shrink:0;
+}
+
+/* Tarjeta de canales rápidos de atención */
+.quick-channels-card{
+  padding:28px 30px;
+  border-radius:20px;
+}
+.quick-channels-card h4{
+  font-family:var(--font-display);
+  font-size:17px;
+  margin:0 0 16px;
+  color:var(--text-primary);
+}
+.channel-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:rgba(15,62,104,0.03);
+  border:1px solid var(--glass-border);
+  margin-bottom:12px;
+  transition:transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+  text-decoration:none;
+  color:inherit;
+}
+.channel-row:hover{
+  transform:translateX(4px);
+  background:#ffffff;
+  border-color:var(--accent-bright);
+}
+.channel-ic{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:var(--accent-dim);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.channel-info{display:flex;flex-direction:column;}
+.channel-title{font-size:12px;color:var(--metal-light);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.channel-val{font-size:15px;font-weight:600;color:var(--text-primary);}
+/* =========================================================
+   Botón "Enviar mensaje" con animación de carta enviándose
+   ========================================================= */
+.send-btn{
+  position:relative;
+  overflow:hidden;
+}
+.send-btn .send-icon{
+  position:relative;
+  width:22px;
+  height:22px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.send-btn .send-icon svg{
+  position:absolute;
+  inset:0;
+  width:22px;
+  height:22px;
+  transition:opacity .35s var(--ease), transform .45s var(--ease);
+}
+.send-btn .ic-envelope{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.send-btn .ic-check{
+  opacity:0;
+  transform:scale(0.4);
+  color:#4ade80;
+}
+.send-btn .speed-lines{
+  position:absolute;
+  left:-8px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  opacity:0;
+  transition:opacity .25s var(--ease);
+}
+.send-btn .speed-lines span{
+  display:block;
+  height:2px;
+  border-radius:2px;
+  background:currentColor;
+  transform-origin:right center;
+  transform:scaleX(0);
+}
+.send-btn .speed-lines span:nth-child(1){width:10px;}
+.send-btn .speed-lines span:nth-child(2){width:14px;}
+.send-btn .speed-lines span:nth-child(3){width:8px;}
+
+/* --- Estado "enviando" --- */
+.send-btn.is-sending .ic-envelope{
+  animation:envelope-fly 1.4s var(--ease) infinite;
+}
+.send-btn.is-sending .speed-lines{
+  opacity:1;
+}
+.send-btn.is-sending .speed-lines span{
+  animation:speed-dash 1.4s var(--ease) infinite;
+}
+.send-btn.is-sending .speed-lines span:nth-child(2){animation-delay:.1s;}
+.send-btn.is-sending .speed-lines span:nth-child(3){animation-delay:.2s;}
+
+@keyframes envelope-fly{
+  0%{
+    transform:translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  25%{
+    transform:translateY(-2px) translateX(1px) rotate(-6deg) scale(1.05);
+  }
+  60%{
+    transform:translateY(-10px) translateX(6px) rotate(-14deg) scale(0.95);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-22px) translateX(14px) rotate(-22deg) scale(0.7);
+    opacity:0;
+  }
+}
+@keyframes speed-dash{
+  0%{transform:scaleX(0);opacity:0;}
+  30%{transform:scaleX(1);opacity:.9;}
+  100%{transform:scaleX(0);opacity:0;}
+}
+
+/* --- Estado "enviado" (éxito) --- */
+.send-btn.is-sent .ic-envelope{
+  opacity:0;
+  transform:translateY(-16px) translateX(10px) rotate(-18deg) scale(0.7);
+  animation:none;
+}
+.send-btn.is-sent .ic-check{
+  opacity:1;
+  transform:scale(1);
+  animation:check-pop .5s cubic-bezier(.34,1.56,.64,1);
+}
+.send-btn.is-sent .speed-lines{
+  opacity:0;
+}
+@keyframes check-pop{
+  0%{transform:scale(0.4) rotate(-15deg);}
+  60%{transform:scale(1.15) rotate(4deg);}
+  100%{transform:scale(1) rotate(0deg);}
+}
+
+/* --- Estado "error" --- */
+.send-btn.is-error .ic-envelope{
+  animation:envelope-shake .5s var(--ease);
+}
+@keyframes envelope-shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-3px) rotate(-4deg);}
+  75%{transform:translateX(3px) rotate(4deg);}
+}
+/* =========================================================
+   FX LAYER — Agua interactiva, mecánica flotante, cursor
+   personalizado y microinteracciones (capa visual agregada)
+   No modifica ninguna regla existente: solo clases/IDs nuevos.
+   ========================================================= */
+
+/* ---------- Canvas de agua (detrás de todo, encima del bg-mesh) ---------- */
+#water-canvas{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+}
+
+/* ---------- Overlay mecánico (engranajes / tuercas flotantes) ---------- */
+.mech-overlay{
+  position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;
+}
+.mech-overlay .gear,
+.mech-overlay .nut{
+  position:absolute;will-change:transform;opacity:0.2;
+}
+.gear-lg{width:140px;height:140px;top:-30px;left:-30px;}
+.gear-md{width:80px;height:80px;bottom:60px;right:40px;}
+.nut{width:28px;height:28px;}
+.nut-a{top:130px;right:70px;}
+.nut-b{bottom:150px;left:60px;}
+@media (max-width:768px){
+  .gear-lg,.gear-md{display:none;}
+}
+
+/* ---------- Cursor personalizado ---------- */
+.cursor-core,.cursor-ring{display:none;}
+@media (hover:hover) and (pointer:fine){
+  body.fx-cursor-active{cursor:none;}
+  body.fx-cursor-active .cursor-core,
+  body.fx-cursor-active .cursor-ring{display:block;}
+}
+.cursor-core{
+  position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:#2a7fcc;
+  box-shadow:0 0 10px rgba(42,127,204,0.75), 0 0 3px rgba(42,127,204,0.9);
+  transform:translate(-50%,-50%);pointer-events:none;z-index:9999;
+}
+.cursor-ring{
+  position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(42,127,204,0.55);background:transparent;
+  transform:translate(-50%,-50%);pointer-events:none;z-index:9998;
+  transition:width .25s var(--ease), height .25s var(--ease),
+             background .25s var(--ease), border-color .25s var(--ease);
+}
+.cursor-ring.cursor-hover{
+  width:56px;height:56px;
+  background:rgba(42,127,204,0.08);
+  border-color:rgba(42,127,204,0.7);
+}
+
+/* ---------- Hover glow (radial siguiendo el cursor) ---------- */
+.fx-glow{position:relative;}
+.fx-glow::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  opacity:0;transition:opacity .4s var(--ease);
+  background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(42,127,204,0.14), transparent 70%);
+}
+.fx-glow:hover::after{opacity:1;}
+
+/* ---------- Tilt magnético (transform aplicado vía JS) ---------- */
+.fx-tilt{will-change:transform;}
+
+@media (prefers-reduced-motion: reduce){
+  .mech-overlay .gear,.mech-overlay .nut{transition:none;}
+  .cursor-core,.cursor-ring{display:none !important;}
 }

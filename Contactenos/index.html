@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contáctenos — Transmidiesel S.A.S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" type="image/png" sizes="32x32" href="../logos/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../logos/favicon_io/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../logos/favicon_io/apple-touch-icon.png">
+<link rel="manifest" href="../logos/favicon_io/site.webmanifest">
+</head>
+<body>
+
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="nav nav-solid" id="navHeader">
+  <div class="wrap nav-inner">
+    <div class="logo-wrap">
+      <a href="../" class="logo-box">
+        <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+      </a>
+    </div>
+    <nav class="links">
+      <a href="../">Inicio</a>
+      <a href="../quienes-somos/">Quiénes Somos</a>
+      <a href="../servicios/">Servicios</a>
+      <a href="../productos/">Productos</a>
+      <a href="./" class="active">Contáctenos</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+573168775212" class="neu-btn ghost magnetic">Línea Nacional</a>
+      <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page-content" id="pageContent">
+
+<div class="bg-mesh"></div>
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ================= HERO ================= -->
+<section class="page-hero contact-hero">
+  <div class="wrap">
+    <span class="kicker">Atención y Asesoría Especializada</span>
+    <h1>Contáctenos</h1>
+    <p>Estamos a tu disposición para asesorarte, cotizar maquinaria, partes y repuestos, o coordinar servicios de mantenimiento técnico en toda Colombia.</p>
+  </div>
+</section>
+
+<!-- ================= FORMULARIO + HORARIOS ================= -->
+<section style="padding-top:10px;padding-bottom:50px;">
+  <div class="wrap">
+    <div class="contact-main-grid">
+
+      <!-- Columna Izquierda: Formulario conectado a Google Sheets y Correo -->
+      <div class="contact-form-card glass reveal">
+        <h2>Envíanos un mensaje</h2>
+        <p class="form-desc">Diligencia tus datos de contacto y cuéntanos qué producto, repuesto o servicio requieres. Te responderemos a la brevedad.</p>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre" class="form-label">Nombre completo <span class="form-req">*</span></label>
+              <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="form-group">
+              <label for="correo" class="form-label">Correo electrónico <span class="form-req">*</span></label>
+              <input type="email" id="correo" name="correo" class="form-input" placeholder="Ej. juan.perez@empresa.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono" class="form-label">Teléfono / Celular <span class="form-req">*</span></label>
+              <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="Ej. +57 316 000 0000" required>
+            </div>
+            <div class="form-group">
+              <label for="asunto" class="form-label">Asunto / Tipo de consulta</label>
+              <select id="asunto" name="asunto" class="form-select">
+                <option value="Cotización de repuestos o equipos">Cotización de repuestos o equipos</option>
+                <option value="Mantenimiento y taller de servicios">Mantenimiento y taller de servicios</option>
+                <option value="Consulta sobre marcas distribuidas">Consulta sobre marcas distribuidas</option>
+                <option value="Asesoría técnica industrial o marina">Asesoría técnica industrial o marina</option>
+                <option value="Otra consulta">Otra consulta</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje" class="form-label">Mensaje o consulta <span class="form-req">*</span></label>
+            <textarea id="mensaje" name="mensaje" class="form-textarea" rows="5" placeholder="Escribe aquí los detalles de tu consulta, equipo, referencia o requerimiento..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="neu-btn primary magnetic send-btn" id="submitBtn">
+              <span class="send-icon" aria-hidden="true">
+                <!-- Sobre cerrado -->
+                <svg class="ic-envelope" viewBox="0 0 32 32" fill="none">
+                  <rect x="3" y="9" width="26" height="18" rx="3" stroke="currentColor" stroke-width="2"/>
+                  <path class="envelope-flap" d="M3 11l13 9 13-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <!-- Líneas de movimiento -->
+                <span class="speed-lines">
+                  <span></span><span></span><span></span>
+                </span>
+                <!-- Check de éxito -->
+                <svg class="ic-check" viewBox="0 0 32 32" fill="none">
+                  <path d="M6 17l6 6 14-14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span id="btnText">Enviar mensaje</span>
+            </button>
+            <span style="font-size:12.5px;color:var(--metal-light);">Tus datos están protegidos y serán tratados con confidencialidad.</span>
+          </div>
+
+          <!-- Mensajes dinámicos de estado -->
+          <div id="formStatus" class="form-status" style="display:none;" role="alert"></div>
+        </form>
+      </div>
+
+      <!-- Columna Derecha: Horarios de atención y canales directos -->
+      <div class="contact-side-stack reveal">
+
+        <!-- Tarjeta de Horario de Atención -->
+        <div class="hours-card glass">
+          <div class="hours-head">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <h3>Horario de Atención</h3>
+          </div>
+
+          <div class="hours-list">
+            <div class="hours-item">
+              <span class="hours-day">
+                <span class="hours-dot-online"></span> Lunes a Viernes:
+              </span>
+              <span class="hours-time">7:30 a.m. a 12:00 p.m. / 1:00 p.m. a 5:00 p.m.</span>
+            </div>
+
+            <div class="hours-item">
+              <span class="hours-day">
+                <span class="hours-dot-online"></span> Sábado:
+              </span>
+              <span class="hours-time">8:00 a.m. a 12:00 p.m.</span>
+            </div>
+
+            <div class="hours-item">
+              <span class="hours-day" style="color:var(--metal-light);">
+                Domingos y Festivos:
+              </span>
+              <span class="hours-time" style="background:rgba(120,140,160,0.06);border-left-color:var(--metal-light);color:var(--metal-light);">
+                Cerrado
+              </span>
+            </div>
+          </div>
+
+          <div class="hours-note">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Atención telefónica y WhatsApp disponible en horario laboral.</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Canales Rápidos -->
+        <div class="quick-channels-card glass">
+          <h4>Canales Directos</h4>
+
+          <a href="tel:+573168775212" class="channel-row">
+            <div class="channel-ic">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="channel-info">
+              <span class="channel-title">Línea Nacional</span>
+              <span class="channel-val">+57 316 877 5212</span>
+            </div>
+          </a>
+
+          <a href="https://wa.me/573168775212" target="_blank" rel="noopener" class="channel-row">
+            <div class="channel-ic" style="background:rgba(37,211,102,0.12);color:#25d366;">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.1 7L3 29l6.7-2.3c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3z"/><path d="M12.1 10.4c-.3-.7-.6-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.3.4-1.3 1.2-1.3 3s1.3 3.5 1.5 3.7c.2.3 2.5 4 6.2 5.5 3 1.2 3.6 1 4.3.9.7-.1 2.1-.8 2.4-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.7-.5s-2.1-1.1-2.4-1.2c-.3-.1-.6-.2-.8.2-.2.4-.9 1.2-1.1 1.4-.2.2-.4.3-.7.1-.4-.2-1.5-.6-2.8-1.8-1-1-1.7-2.1-1.9-2.5-.2-.4 0-.6.2-.8l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6 0-.2-.7-1.9-1-2.7z" fill="#ffffff"/></svg>
+            </div>
+            <div class="channel-info">
+              <span class="channel-title">WhatsApp Corporativo</span>
+              <span class="channel-val">Iniciar chat inmediato</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEDES CON MAPAS ================= -->
+<section class="tint" style="padding-top:60px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">Presencia Nacional</span>
+      <h2>Nuestras Sedes</h2>
+      <p>Visítanos en nuestras instalaciones principales en Cali y Cartagena de Indias.</p>
+    </div>
+
+    <div class="sede-grid">
+      <!-- Sede Cali -->
+      <div class="sede-card glass reveal">
+        <div class="sede-info">
+          <span class="sede-kicker">Sede Principal — Cali</span>
+          <h3>Transmidiesel S.A.S</h3>
+          <div class="sede-line"><span class="ic">📍</span> Carrera 1 # 50N-89, Barrio Evaristo García</div>
+          <div class="sede-line"><span class="ic">☎</span> Línea Nacional: +57 316 877 5212</div>
+        </div>
+        <div class="sede-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.480851922681!2d-76.50763982416072!3d3.475367796499033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a62cfff209bb%3A0xbefb05c4becedb21!2sTransmidiesel%20Cali!5e0!3m2!1ses!2sco!4v1789768178789!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Mapa Sede Cali"></iframe>
+        </div>
+      </div>
+
+      <!-- Sede Cartagena -->
+      <div class="sede-card glass reveal">
+        <div class="sede-info">
+          <span class="sede-kicker">Agencia Caribe — Cartagena</span>
+          <h3>Transmidiesel S.A.S</h3>
+          <div class="sede-line"><span class="ic">📍</span> Diagonal 22 # 37 – 54, Av Crisanto Luque — Barrio El Bosque</div>
+          <div class="sede-line"><span class="ic">☎</span> Contacto: +57 316 877 5207</div>
+        </div>
+        <div class="sede-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.26281750424656!2d-75.52076969701716!3d10.405280354884397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef6258ebb868ced%3A0x4995ece27fec3659!2sDg.%2022%20%2337-54%2C%20Mart%C3%ADnez%20Martelo%2C%20Cartagena%20de%20Indias%2C%20Bol%C3%ADvar!5e0!3m2!1ses!2sco!4v1789768232518!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Mapa Sede Cartagena"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contactos de asesores -->
+    <div class="contact-grid">
+      <div class="contact-card glass reveal">
+        <div class="role">Administración · Cali</div>
+        <div class="person">Diana Marcela Ordoñez</div>
+        <div class="phone"><a href="tel:+573155735099">+57 315 573 5099</a></div>
+      </div>
+      <div class="contact-card glass reveal">
+        <div class="role">Comercial · Cali</div>
+        <div class="person">Oscar Asesor Comercial</div>
+        <div class="phone"><a href="tel:+573165220137">+57 316 522 0137</a></div>
+      </div>
+      <div class="contact-card glass reveal">
+        <div class="role">Administración · Cartagena</div>
+        <div class="person">Manuel Blanco</div>
+        <div class="phone"><a href="tel:+573168775207">+57 316 877 5207</a></div>
+      </div>
+      <div class="contact-card glass reveal">
+        <div class="role">Comercial · Cartagena</div>
+        <div class="person">Hebert Caraballo</div>
+        <div class="phone"><a href="tel:+573168775201">+57 316 877 5201</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo-wrap" style="margin-bottom:16px;">
+          <a href="../" class="logo-box">
+            <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+          </a>
+        </div>
+        <p style="color:var(--metal-light);font-size:14px;max-width:320px;">
+          Líder en importación y comercialización de equipos industriales y servicios de mantenimiento, con respaldo de marcas reconocidas globalmente.
+        </p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="../">Inicio</a></li>
+          <li><a href="../quienes-somos/">Quiénes Somos</a></li>
+          <li><a href="../servicios/">Servicios</a></li>
+          <li><a href="../productos/">Productos</a></li>
+          <li><a href="./">Contáctenos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sede Cali</h4>
+        <ul>
+          <li>Carrera 1 # 50N-89</li>
+          <li>Barrio Evaristo García</li>
+          <li><a href="tel:+573168775212">+57 316 877 5212</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Agencia Cartagena</h4>
+        <ul>
+          <li>Diagonal 22 # 37 – 54</li>
+          <li>Av Crisanto Luque — Barrio El Bosque</li>
+          <li><a href="tel:+573168775207">+57 316 877 5207</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Fila de certificados organizada en la parte inferior -->
+    <div class="footer-certs-strip">
+      <div class="footer-certs">
+        <a href="https://drive.google.com/file/d/1tUCS5XpRbFDOzavGLTw8GLl5oagov1KM/view" target="_blank" rel="noopener" class="footer-cert" aria-label="Certificación Coface" title="Certificado Coface">
+          <img src="../Certificados/coface.png" alt="Coface">
+        </a>
+        <a href="https://drive.google.com/file/d/19A8tL2YiLWpuYOBLWedSsei4WFTLczVw/view" target="_blank" rel="noopener" class="footer-cert" aria-label="Certificación PAR Servicios" title="Certificado PAR Servicios">
+          <img src="../Certificados/par.png" alt="PAR">
+        </a>
+        <a href="https://drive.google.com/file/d/1pvsPGOfZW7c02YCRyURUdB-tuwCg8caQ/view" target="_blank" rel="noopener" class="footer-cert" aria-label="Licencia DIMAR" title="Licencia DIMAR">
+          <img src="../Certificados/dimar logo.png" alt="DIMAR">
+        </a>
+        <a href="https://www.sgs.com/en/certified-clients-and-products/verify-certificate?id=5d58a8f4-052a-4752-a21d-c325ac1fa388" target="_blank" rel="noopener" class="footer-cert" aria-label="Certificación SGS ISO 9001" title="Certificación SGS ISO 9001">
+          <img src="../Certificados/ISO-9001.png" alt="ISO 9001">
+        </a>
+        <a href="https://www.sgs.com/en/certified-clients-and-products/verify-certificate?id=2b3816a8-7ab1-468b-b4c7-d334e0a2586e" target="_blank" rel="noopener" class="footer-cert" aria-label="Certificación SGS ISO 14001" title="Certificación SGS ISO 14001">
+          <img src="../Certificados/ISO-14001.png" alt="ISO 14001">
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Transmidiesel S.A.S. Todos los derechos reservados.</span>
+      <div class="social-row" aria-label="Redes sociales Transmidiesel">
+        <a href="https://www.facebook.com/Transmidiesel" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6V14h2.8v8h3.1z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/transmidiesel/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/transmidiesel/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@transmidiesel" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 1.9 1.4 3.2 3.3 3.5v2.4c-1.2.1-2.3-.2-3.3-.9v6.4c0 3.3-2.6 5.6-5.6 5.6S5.3 17.7 5.3 14.6c0-2.9 2.2-5.3 5.2-5.3.3 0 .5 0 .8.1v2.5c-.3-.1-.5-.1-.8-.1-1.5 0-2.7 1.2-2.7 2.8 0 1.6 1.2 2.7 2.7 2.7 1.5 0 2.7-1.1 2.7-2.7V3h3.3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+<!-- ↑ cierra .page-content -->
+
+<!-- ================= WHATSAPP MODULE ================= -->
+<div class="wa-float" id="waFloat">
+  <div class="wa-panel glass" id="waPanel">
+    <div class="wa-head">
+      <div class="wa-logo">
+        <img src="../logos/favicon_io/android-chrome-512x512.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback" style="display:none;font-size:8px;">LOGO</div>
+      </div>
+      <div>
+        <div class="wa-title">TMD - Línea Nacional</div>
+        <div class="wa-sub">Hola! Somos Transmidiesel S.A.S.</div>
+      </div>
+    </div>
+    <div class="wa-body">
+      <div class="wa-bubble"><strong>Hola! somos Transmidiesel S.A.S.</strong><br>Es un placer asesorarte; ¿cómo podemos ayudarte?</div>
+      <a href="https://wa.me/573168775212" target="_blank" class="neu-btn primary magnetic" style="width:100%;justify-content:center;">Iniciar conversación</a>
+    </div>
+  </div>
+
+  <button class="back-top magnetic" id="backTop" aria-label="Volver arriba" title="Volver arriba">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <button class="wa-fab magnetic" id="waFab" aria-label="Abrir WhatsApp">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.1 7L3 29l6.7-2.3c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3z" fill="#ffffff"/><path d="M12.1 10.4c-.3-.7-.6-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.3.4-1.3 1.2-1.3 3s1.3 3.5 1.5 3.7c.2.3 2.5 4 6.2 5.5 3 1.2 3.6 1 4.3.9.7-.1 2.1-.8 2.4-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.7-.5s-2.1-1.1-2.4-1.2c-.3-.1-.6-.2-.8.2-.2.4-.9 1.2-1.1 1.4-.2.2-.4.3-.7.1-.4-.2-1.5-.6-2.8-1.8-1-1-1.7-2.1-1.9-2.5-.2-.4 0-.6.2-.8l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6 0-.2-.7-1.9-1-2.7z" fill="var(--accent)"/></svg>
+  </button>
+
+  <div class="wa-socials" id="waSocials" aria-label="Redes sociales Transmidiesel">
+    <a href="https://www.facebook.com/Transmidiesel" target="_blank" rel="noopener" class="wa-social-btn" aria-label="Facebook" title="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6V14h2.8v8h3.1z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/transmidiesel/" target="_blank" rel="noopener" class="wa-social-btn" aria-label="Instagram" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@transmidiesel" target="_blank" rel="noopener" class="wa-social-btn" aria-label="TikTok" title="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 1.9 1.4 3.2 3.3 3.5v2.4c-1.2.1-2.3-.2-3.3-.9v6.4c0 3.3-2.6 5.6-5.6 5.6S5.3 17.7 5.3 14.6c0-2.9 2.2-5.3 5.2-5.3.3 0 .5 0 .8.1v2.5c-.3-.1-.5-.1-.8-.1-1.5 0-2.7 1.2-2.7 2.8 0 1.6 1.2 2.7 2.7 2.7 1.5 0 2.7-1.1 2.7-2.7V3h3.3z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/company/transmidiesel/" target="_blank" rel="noopener" class="wa-social-btn" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5z"/></svg>
+    </a>
+  </div>
+</div>
+
+<script src="../script.js"></script>
+
+<!-- ================= SCRIPT DEL FORMULARIO CON GOOGLE APPS SCRIPT ================= -->
+<script>
+  // =========================================================================
+  // CONFIGURACIÓN DE CONEXIÓN CON GOOGLE APPS SCRIPT
+  // =========================================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtIIoIoQ5P7vEWPH4T6ybujcnbQAE1SMmQ1D8hmL3PNjdc5ae5vttzKngxOdNjSDo/exec";
+
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const formStatus = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const asunto = document.getElementById('asunto').value;
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    if (!nombre || !correo || !telefono || !mensaje) {
+      showStatus('error', 'Por favor diligencia todos los campos obligatorios (*) antes de enviar.');
+      return;
+    }
+
+    // Validación básica de correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      showStatus('error', 'Por favor ingresa un correo electrónico válido.');
+      return;
+    }
+
+    // Estado cargando
+    setButtonState('sending');
+    formStatus.style.display = 'none';
+
+    const payload = {
+      nombre: nombre,
+      correo: correo,
+      telefono: telefono,
+      asunto: asunto,
+      mensaje: mensaje
+    };
+
+    try {
+      // Envío compatible con Google Apps Script sin bloqueo de CORS
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      setButtonState('sent');
+      showStatus('success', '<strong>¡Tu mensaje ha sido enviado con éxito!</strong><br>Gracias por contactar a Transmidiesel S.A.S. Un asesor comercial revisará tu solicitud y te responderá a la brevedad.');
+      form.reset();
+
+    } catch (err) {
+      console.error('Error al enviar formulario:', err);
+      setButtonState('error');
+      showStatus('error', 'Hubo un inconveniente al conectar con el servidor. Por favor intenta nuevamente o comunícate directamente por WhatsApp o a nuestra Línea Nacional: +57 316 877 5212.');
+    }
+  });
+
+  // Estados del botón: normal, enviando, enviado, error
+  function setButtonState(state) {
+    // Limpiamos todas las clases de estado
+    submitBtn.classList.remove('is-sending', 'is-sent', 'is-error');
+
+    if (state === 'sending') {
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.85';
+      btnText.textContent = 'Enviando...';
+      submitBtn.classList.add('is-sending');
+    } else if (state === 'sent') {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+      btnText.textContent = '¡Mensaje enviado!';
+      submitBtn.classList.add('is-sent');
+
+      // Volver al estado normal después de 3 segundos
+      setTimeout(() => {
+        submitBtn.classList.remove('is-sent');
+        btnText.textContent = 'Enviar mensaje';
+      }, 3000);
+    } else if (state === 'error') {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+      btnText.textContent = 'Error, reintentar';
+      submitBtn.classList.add('is-error');
+
+      // Volver al estado normal después de 3 segundos
+      setTimeout(() => {
+        submitBtn.classList.remove('is-error');
+        btnText.textContent = 'Enviar mensaje';
+      }, 3000);
+    } else {
+      // Estado normal
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+      btnText.textContent = 'Enviar mensaje';
+    }
+  }
+
+  function showStatus(type, html) {
+    formStatus.className = 'form-status ' + type;
+    const icon = type === 'success' ? '✅' : '⚠️';
+    formStatus.innerHTML = '<span class="ic-status">' + icon + '</span><div>' + html + '</div>';
+    formStatus.style.display = 'flex';
+    formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+
+</body>
+</html>
