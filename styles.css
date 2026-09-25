@@ -1927,33 +1927,97 @@ body::after{
   to{stroke-dashoffset:0;}
 }
 
-.empleado-modal h3{
-  font-family:var(--font-display);
-  font-size:24px;
-  font-weight:700;
-  margin:0 0 10px;
-  color:var(--text-primary);
+/* =========================================================
+   PÁGINA EMPLEADOS — Grid de acceso en dos columnas
+   ========================================================= */
+.empleado-acceso-grid{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:44px;
+  align-items:center;
 }
-.empleado-modal p{
+@media (max-width:900px){
+  .empleado-acceso-grid{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+}
+
+/* Columna izquierda: info */
+.empleado-acceso-info .kicker{
+  color:var(--accent-bright);
+  font-size:13.5px;
+  font-weight:600;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:block;
+}
+.empleado-acceso-info h2{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(26px,3.2vw,38px);
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  color:var(--text-primary);
+  margin:0 0 16px;
+}
+.empleado-acceso-info > p{
   color:var(--metal-light);
-  font-size:15px;
-  line-height:1.6;
+  font-size:15.5px;
+  line-height:1.7;
+  max-width:520px;
   margin:0 0 24px;
 }
-.empleado-modal p strong{
-  color:var(--accent);
-}
-.empleado-modal-actions{
+
+.empleado-acceso-list{
+  list-style:none;
+  padding:0;
+  margin:0;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
-.empleado-modal-actions .neu-btn{
-  width:100%;
+.empleado-acceso-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  color:var(--metal-light);
+  font-size:14.5px;
+  line-height:1.55;
+}
+.empleado-acceso-list .empleado-check{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--accent-dim);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
   justify-content:center;
+  font-size:13px;
+  font-weight:700;
+  flex-shrink:0;
+  margin-top:1px;
 }
-@media (max-width:480px){
-  .empleado-modal{padding:30px 22px 24px;}
-  .empleado-modal h3{font-size:20px;}
-  .empleado-modal p{font-size:14px;}
+
+/* Columna derecha: formulario */
+.empleado-acceso-form{
+  padding:32px 34px;
+  border-radius:20px;
+}
+@media (max-width:600px){
+  .empleado-acceso-form{padding:26px 22px;}
+}
+.empleado-acceso-form h3{
+  font-family:var(--font-display);
+  font-size:21px;
+  font-weight:600;
+  color:var(--text-primary);
+  margin:0 0 6px;
+}
+.empleado-acceso-form .empleado-form-sub{
+  color:var(--metal-light);
+  font-size:13.5px;
+  margin:0 0 22px;
 }

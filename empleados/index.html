@@ -48,7 +48,7 @@
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- ================= HERO ================= -->
-<section class="page-hero" style="padding-top:170px;">
+<section class="page-hero" style="padding-top:120px;padding-bottom:20px;">
   <div class="wrap">
     <span class="kicker">Recursos Humanos</span>
     <h1>Empleados</h1>
@@ -57,35 +57,59 @@
 </section>
 
 <!-- ================= VALIDACIÓN ================= -->
-<section class="tint">
+<section class="tint" style="padding-top:28px;padding-bottom:28px;">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="kicker">Acceso</span>
-      <h2>Consulta el Reglamento Interno</h2>
-      <p>Ingresa tu cédula. Si estás registrado, podrás abrir el documento.</p>
-    </div>
+    <div class="empleado-acceso-grid">
 
-    <div class="prose-card glass reveal" style="max-width:560px;margin:0 auto;">
-      <form id="formEmpleado" autocomplete="off" novalidate>
-        <div class="form-group">
-          <label for="cedula" class="form-label">Número de cédula <span class="form-req">*</span></label>
-          <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Ej. 1234567890" inputmode="numeric" required>
-        </div>
-        <div class="form-actions" style="justify-content:center;">
-          <button type="submit" class="neu-btn primary magnetic" id="btnValidar">
-            <span id="btnValidarText">Validar y abrir reglamento</span>
-          </button>
-        </div>
-        <div id="formEmpleadoStatus" class="form-status" style="display:none;" role="alert"></div>
-      </form>
+      <!-- Columna Izquierda: título, descripción e información -->
+      <div class="empleado-acceso-info reveal">
+        <span class="kicker">Acceso</span>
+        <h2>Consulta el Reglamento Interno</h2>
+        <p>Ingresa tu número de cédula. Si estás registrado en nuestra base de datos, podrás abrir el reglamento interno de trabajo en formato PDF.</p>
+
+        <ul class="empleado-acceso-list">
+          <li>
+            <span class="empleado-check">✓</span>
+            Acceso restringido a empleados registrados.
+          </li>
+          <li>
+            <span class="empleado-check">✓</span>
+            Tu consulta queda registrada con fecha y hora.
+          </li>
+          <li>
+            <span class="empleado-check">✓</span>
+            Si no estás registrado, contacta a Recursos Humanos.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna Derecha: formulario -->
+      <div class="empleado-acceso-form glass reveal">
+        <h3>Validar identidad</h3>
+        <p class="empleado-form-sub">Solo necesitas tu número de cédula.</p>
+
+        <form id="formEmpleado" autocomplete="off" novalidate>
+          <div class="form-group" style="margin-bottom:18px;">
+            <label for="cedula" class="form-label">Número de cédula <span class="form-req">*</span></label>
+            <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Ej. 1234567890" inputmode="numeric" required>
+          </div>
+          <div class="form-actions" style="justify-content:center;margin-top:0;">
+            <button type="submit" class="neu-btn primary magnetic" id="btnValidar" style="width:100%;">
+              <span id="btnValidarText">Validar y abrir reglamento</span>
+            </button>
+          </div>
+          <div id="formEmpleadoStatus" class="form-status" style="display:none;" role="alert"></div>
+        </form>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
-<section id="contacto">
+<section id="contacto" style="padding-top:28px;padding-bottom:48px;">
   <div class="wrap">
-    <div class="cta-band glass reveal">
+    <div class="cta-band glass reveal" style="padding:36px 30px;">
       <h2>¿Necesitas más información?</h2>
       <p>Escríbenos y con gusto te asesoramos.</p>
       <a href="../contactenos/" class="neu-btn primary magnetic">Ir a Contáctenos</a>
