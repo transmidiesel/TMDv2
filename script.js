@@ -78,24 +78,17 @@ function animateCounter(el){
   runningAnims.set(el, id);
 }
 
-function resetCounter(el){
-  const id = runningAnims.get(el);
-  if (id) cancelAnimationFrame(id);
-  runningAnims.delete(el);
-  el.textContent = '0';
-}
-
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(en=>{
-    en.target.classList.toggle('visible', en.isIntersecting);
+    if (en.isIntersecting) {
+      en.target.classList.add('visible');
 
-    // Si esta tarjeta .reveal contiene un contador, lo animamos/reiniciamos
-    // con la MISMA lectura de intersección — sin un segundo observer compitiendo
-    // por calcular la geometría de un elemento que se está transformando.
-    const counter = en.target.querySelector('.count');
-    if (counter) {
-      if (en.isIntersecting) animateCounter(counter);
-      else resetCounter(counter);
+      // Los contadores se animan una sola vez al entrar por primera vez
+      const counter = en.target.querySelector('.count');
+      if (counter) animateCounter(counter);
+
+      // Dejamos de observar: ya no se ocultará ni volverá a animar
+      io.unobserve(en.target);
     }
   });
 }, {threshold:0.15, rootMargin:'0px 0px -6% 0px'});
@@ -152,7 +145,11 @@ const revealPops = document.querySelectorAll('.reveal-pop');
 if (revealPops.length) {
   const popObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      entry.target.classList.toggle('visible', entry.isIntersecting);
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Se anima una sola vez: dejamos de observar este elemento
+        popObserver.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.15, rootMargin:'0px 0px -6% 0px' });
 
