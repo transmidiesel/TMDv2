@@ -1800,21 +1800,16 @@ body::after{
   position:fixed;inset:0;z-index:1;pointer-events:none;
 }
 
-/* ---------- Overlay mecánico (engranajes / tuercas flotantes) ---------- */
+/* ---------- Overlay mecánico (tuercas flotantes) ---------- */
 .mech-overlay{
   position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;
 }
-.mech-overlay .gear,
+
+/* Tuercas (tuerca.png): tamaño, posición, opacidad y blur los fija el JS
+   por elemento (son aleatorios en cada carga); aquí solo lo estructural. */
 .mech-overlay .nut{
-  position:absolute;will-change:transform;opacity:0.2;
-}
-.gear-lg{width:140px;height:140px;top:-30px;left:-30px;}
-.gear-md{width:80px;height:80px;bottom:60px;right:40px;}
-.nut{width:28px;height:28px;}
-.nut-a{top:130px;right:70px;}
-.nut-b{bottom:150px;left:60px;}
-@media (max-width:768px){
-  .gear-lg,.gear-md{display:none;}
+  position:absolute;will-change:transform, filter;
+  object-fit:contain;pointer-events:none;
 }
 
 /* ---------- Cursor personalizado ---------- */
@@ -1856,6 +1851,109 @@ body::after{
 .fx-tilt{will-change:transform;}
 
 @media (prefers-reduced-motion: reduce){
-  .mech-overlay .gear,.mech-overlay .nut{transition:none;}
+  .mech-overlay .nut{transition:none;}
   .cursor-core,.cursor-ring{display:none !important;}
+}
+/* =========================================================
+   MODAL DE AGRADECIMIENTO — Página Empleados
+   ========================================================= */
+.empleado-modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(15,62,104,0.45);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .35s var(--ease), visibility 0s linear .35s;
+}
+.empleado-modal-overlay.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transition:opacity .35s var(--ease), visibility 0s linear 0s;
+}
+
+.empleado-modal{
+  width:100%;
+  max-width:420px;
+  padding:38px 34px 32px;
+  text-align:center;
+  background:rgba(255,255,255,0.98);
+  border-radius:22px;
+  transform:scale(0.8) translateY(20px);
+  opacity:0;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), opacity .35s var(--ease);
+}
+.empleado-modal-overlay.open .empleado-modal{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+
+.empleado-modal-check{
+  width:72px;
+  height:72px;
+  margin:0 auto 18px;
+  color:#2e7d32;
+  animation:checkBounce .6s cubic-bezier(.34,1.56,.64,1) .15s both;
+}
+.empleado-modal-check svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.empleado-modal-check path{
+  stroke-dasharray:60;
+  stroke-dashoffset:60;
+  animation:checkDraw .5s ease .35s forwards;
+}
+.empleado-modal-check circle{
+  stroke-dasharray:160;
+  stroke-dashoffset:160;
+  animation:checkDraw .7s ease forwards;
+}
+@keyframes checkBounce{
+  0%{transform:scale(0.3);}
+  60%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+@keyframes checkDraw{
+  to{stroke-dashoffset:0;}
+}
+
+.empleado-modal h3{
+  font-family:var(--font-display);
+  font-size:24px;
+  font-weight:700;
+  margin:0 0 10px;
+  color:var(--text-primary);
+}
+.empleado-modal p{
+  color:var(--metal-light);
+  font-size:15px;
+  line-height:1.6;
+  margin:0 0 24px;
+}
+.empleado-modal p strong{
+  color:var(--accent);
+}
+.empleado-modal-actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.empleado-modal-actions .neu-btn{
+  width:100%;
+  justify-content:center;
+}
+@media (max-width:480px){
+  .empleado-modal{padding:30px 22px 24px;}
+  .empleado-modal h3{font-size:20px;}
+  .empleado-modal p{font-size:14px;}
 }

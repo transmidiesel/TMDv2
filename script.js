@@ -471,6 +471,18 @@ if (revealPops.length) {
    FX LAYER — Agua interactiva, mecánica flotante, cursor
    personalizado y microinteracciones (capa agregada).
    IIFE aislado: no lee ni sobreescribe nada del código anterior.
+
+   Robustez ante timing: todo el arranque pasa por initFX(), que
+   se dispara en DOMContentLoaded si el documento aún está
+   cargando, o de inmediato si ya cargó (cubre el caso de que este
+   script se ejecute antes o después de que el DOM esté listo).
+   Cada bloque va envuelto en try/catch por separado: si algo falla
+   en el canvas de agua, NO tira abajo el overlay mecánico, el
+   cursor personalizado ni el tilt/glow — antes, un solo error en
+   cualquiera de las secciones detenía TODO lo que venía después
+   en el mismo IIFE, lo cual explica que a veces "no cargaran las
+   animaciones" en la primera visita.
+
    Nota: el reveal por scroll y los contadores animados YA existen
    arriba (bidireccionales, sobre .reveal y .count) — no se duplican
    aquí para no generar dos observers compitiendo por los mismos
@@ -479,366 +491,296 @@ if (revealPops.length) {
 (function(){
   'use strict';
 
-  var reduceMotion  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  function initFX(){
 
-  /* ---------------------------------------------------------
-     1) CANVAS DE AGUA INTERACTIVA
-  --------------------------------------------------------- */
-  var canvas = document.getElementById('water-canvas');
-  if (canvas && canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-    var W = 0, H = 0;
-    var mouseX = -9999, mouseY = -9999;
-    var hasPointer = false;
+    var reduceMotion  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    var isDesktop     = window.matchMedia('(min-width:769px)').matches;
 
-    function resizeCanvas(){
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    /* ---------------------------------------------------------
+       1) CANVAS — SOLO PARTÍCULAS
+       Se quitó a pedido del usuario: fondo animado, caustics,
+       líneas de oleaje, destellos especulares, ondas del cursor
+       y el brillo radial del cursor. Solo quedan las partículas,
+       que además se siguen alejando del cursor al pasar cerca.
+    --------------------------------------------------------- */
+    try {
+      var canvas = document.getElementById('water-canvas');
+      if (canvas && canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        var W = 0, H = 0;
+        var mouseX = -9999, mouseY = -9999;
+        var hasPointer = false;
 
-    if (!reduceMotion) {
-      var desktop        = window.matchMedia('(min-width:769px)').matches;
-      var PARTICLE_COUNT = desktop ? 60 : 25;
-      var SPARKLE_COUNT   = desktop ? 28 : 12;
+        var resizeCanvas = function(){
+          W = canvas.width  = window.innerWidth;
+          H = canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-      var caustics = [];
-      for (var c = 0; c < 6; c++){
-        caustics.push({
-          x:Math.random()*W, y:Math.random()*H,
-          baseR:180+Math.random()*80,
-          speedX:(Math.random()-0.5)*0.15,
-          speedY:(Math.random()-0.5)*0.15,
-          phase:Math.random()*Math.PI*2
-        });
-      }
+        if (!reduceMotion) {
+          var PARTICLE_COUNT = isDesktop ? 60 : 25;
 
-      var waveLines = [];
-      for (var wl = 0; wl < 4; wl++){
-        waveLines.push({ y:(H/5)*(wl+1), phase:Math.random()*Math.PI*2, speed:0.15+Math.random()*0.1 });
-      }
-
-      var particles = [];
-      for (var p = 0; p < PARTICLE_COUNT; p++){
-        particles.push({
-          x:Math.random()*W, y:Math.random()*H,
-          r:0.4+Math.random()*1.6,
-          vx:(Math.random()-0.5)*0.12,
-          vy:(Math.random()-0.5)*0.12,
-          alpha:0.25+Math.random()*0.4,
-          phase:Math.random()*Math.PI*2
-        });
-      }
-
-      var sparkles = [];
-      for (var s = 0; s < SPARKLE_COUNT; s++){
-        sparkles.push({
-          x:Math.random()*W, y:Math.random()*H,
-          size:1+Math.random()*2.5,
-          phase:Math.random()*Math.PI*2,
-          driftX:(Math.random()-0.5)*0.05,
-          driftY:(Math.random()-0.5)*0.05
-        });
-      }
-
-      var ripples = [];
-      var lastRippleTime = 0;
-      var RIPPLE_THROTTLE = 220;
-      var MAX_RIPPLES = 18;
-
-      function spawnRipple(x, y, throttleMs){
-        var now = performance.now();
-        if (now - lastRippleTime < (throttleMs != null ? throttleMs : RIPPLE_THROTTLE)) return;
-        lastRippleTime = now;
-        if (ripples.length >= MAX_RIPPLES) ripples.shift();
-        ripples.push({
-          x:x, y:y, r:2,
-          maxR:180+Math.random()*100,
-          alpha:0.35,
-          hue:195+Math.random()*25
-        });
-      }
-
-      window.addEventListener('mousemove', function(e){
-        mouseX = e.clientX; mouseY = e.clientY; hasPointer = true;
-        spawnRipple(e.clientX, e.clientY, 220);
-      }, {passive:true});
-
-      window.addEventListener('mouseout', function(e){
-        if (!e.relatedTarget && !e.toElement) { hasPointer = false; }
-      });
-
-      window.addEventListener('touchstart', function(e){
-        if (!e.touches || !e.touches[0]) return;
-        var t = e.touches[0];
-        mouseX = t.clientX; mouseY = t.clientY; hasPointer = true;
-        spawnRipple(t.clientX, t.clientY, 0);
-      }, {passive:true});
-
-      window.addEventListener('touchmove', function(e){
-        if (!e.touches || !e.touches[0]) return;
-        var t = e.touches[0];
-        mouseX = t.clientX; mouseY = t.clientY;
-        spawnRipple(t.clientX, t.clientY, 180);
-      }, {passive:true});
-
-      var causticTime = 0;
-
-      function drawWater(){
-        causticTime += 0.01;
-
-        var bgGrad = ctx.createLinearGradient(0, 0, W, H);
-        bgGrad.addColorStop(0, '#ffffff');
-        bgGrad.addColorStop(0.5, '#f9fcff');
-        bgGrad.addColorStop(1, '#f1f8ff');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'screen';
-        for (var i = 0; i < caustics.length; i++){
-          var cst = caustics[i];
-          cst.x += cst.speedX; cst.y += cst.speedY;
-          if (cst.x < -300) cst.x = W+300; if (cst.x > W+300) cst.x = -300;
-          if (cst.y < -300) cst.y = H+300; if (cst.y > H+300) cst.y = -300;
-          var r = cst.baseR + Math.sin(causticTime*1.3 + cst.phase)*40;
-          var a = 0.08 + Math.sin(causticTime + cst.phase)*0.035 + 0.035;
-          var rg = ctx.createRadialGradient(cst.x, cst.y, 0, cst.x, cst.y, r);
-          rg.addColorStop(0, 'rgba(195,232,255,'+a+')');
-          rg.addColorStop(1, 'rgba(195,232,255,0)');
-          ctx.fillStyle = rg;
-          ctx.beginPath();
-          ctx.arc(cst.x, cst.y, r, 0, Math.PI*2);
-          ctx.fill();
-        }
-        ctx.restore();
-
-        ctx.save();
-        ctx.strokeStyle = 'rgba(42,127,204,0.055)';
-        ctx.lineWidth = 1;
-        for (var wIdx = 0; wIdx < waveLines.length; wIdx++){
-          var wave = waveLines[wIdx];
-          wave.phase += wave.speed*0.01;
-          ctx.beginPath();
-          for (var x = 0; x <= W; x += 8){
-            var yOff = Math.sin(x*0.012 + wave.phase)*11;
-            var yy = wave.y + yOff;
-            if (x === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
+          var particles = [];
+          for (var p = 0; p < PARTICLE_COUNT; p++){
+            particles.push({
+              x:Math.random()*W, y:Math.random()*H,
+              r:0.4+Math.random()*1.6,
+              vx:(Math.random()-0.5)*0.12,
+              vy:(Math.random()-0.5)*0.12,
+              alpha:0.25+Math.random()*0.4,
+              phase:Math.random()*Math.PI*2
+            });
           }
-          ctx.stroke();
-        }
-        ctx.restore();
 
-        for (var pi = 0; pi < particles.length; pi++){
-          var pt = particles[pi];
-          pt.phase += 0.02;
-          if (hasPointer){
-            var dx = pt.x-mouseX, dy = pt.y-mouseY;
-            var dist = Math.sqrt(dx*dx+dy*dy);
-            if (dist < 150 && dist > 0.001){
-              var force = (150-dist)/150*0.6;
-              pt.x += (dx/dist)*force; pt.y += (dy/dist)*force;
+          window.addEventListener('mousemove', function(e){
+            mouseX = e.clientX; mouseY = e.clientY; hasPointer = true;
+          }, {passive:true});
+
+          window.addEventListener('mouseout', function(e){
+            if (!e.relatedTarget && !e.toElement) { hasPointer = false; }
+          });
+
+          window.addEventListener('touchstart', function(e){
+            if (!e.touches || !e.touches[0]) return;
+            var t = e.touches[0];
+            mouseX = t.clientX; mouseY = t.clientY; hasPointer = true;
+          }, {passive:true});
+
+          window.addEventListener('touchmove', function(e){
+            if (!e.touches || !e.touches[0]) return;
+            var t = e.touches[0];
+            mouseX = t.clientX; mouseY = t.clientY;
+          }, {passive:true});
+
+          var drawWater = function(){
+            try {
+              ctx.clearRect(0, 0, W, H);
+
+              for (var pi = 0; pi < particles.length; pi++){
+                var pt = particles[pi];
+                pt.phase += 0.02;
+                if (hasPointer){
+                  var dx = pt.x-mouseX, dy = pt.y-mouseY;
+                  var dist = Math.sqrt(dx*dx+dy*dy);
+                  if (dist < 150 && dist > 0.001){
+                    var force = (150-dist)/150*0.6;
+                    pt.x += (dx/dist)*force; pt.y += (dy/dist)*force;
+                  }
+                }
+                pt.x += pt.vx; pt.y += pt.vy;
+                if (pt.x < 0) pt.x = W; if (pt.x > W) pt.x = 0;
+                if (pt.y < 0) pt.y = H; if (pt.y > H) pt.y = 0;
+
+                var glowA = pt.alpha * (0.6 + 0.4*Math.sin(pt.phase));
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(90,175,225,'+(glowA*0.15)+')';
+                ctx.arc(pt.x, pt.y, pt.r*2.5, 0, Math.PI*2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(90,175,225,'+glowA+')';
+                ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI*2);
+                ctx.fill();
+              }
+            } catch(innerErr) {
+              // Si un solo frame falla, no matamos el loop: seguimos intentando
+              // en el siguiente frame en vez de dejar el canvas congelado.
             }
+            requestAnimationFrame(drawWater);
+          };
+          requestAnimationFrame(drawWater);
+        }
+      }
+    } catch(e) { /* el canvas no debe tumbar el resto de la capa FX */ }
+
+    /* ---------------------------------------------------------
+       2) TUERCAS ALEATORIAS (tuerca.png con profundidad/blur)
+       Más grandes = más "cerca" de la pantalla = más desenfocadas.
+    --------------------------------------------------------- */
+    try {
+      var mechOverlay = document.querySelector('.mech-overlay');
+      if (mechOverlay) {
+        var NUT_COUNT = isDesktop ? 16 : 8;
+        var MIN_SIZE = 40, MAX_SIZE = 150;   // px
+        var MAX_BLUR = 7;                    // px, en el tamaño más grande
+        // Por debajo de este tamaño la tuerca queda perfectamente nítida
+        // (blur 0). Por encima, el desenfoque crece con el tamaño.
+        var SHARP_THRESHOLD = MIN_SIZE + (MAX_SIZE - MIN_SIZE) * 0.45;
+
+        for (var n = 0; n < NUT_COUNT; n++){
+          var size = MIN_SIZE + Math.random()*(MAX_SIZE - MIN_SIZE);
+          var depth = (size - MIN_SIZE) / (MAX_SIZE - MIN_SIZE); // 0=chica, 1=grande
+          var blur = size <= SHARP_THRESHOLD
+            ? 0
+            : ((size - SHARP_THRESHOLD) / (MAX_SIZE - SHARP_THRESHOLD)) * MAX_BLUR;
+          var opacity = 0.14 + depth*0.16; // más grande, un poco más presente
+
+          var img = document.createElement('img');
+          img.src = 'tuerca.png';
+          img.alt = '';
+          img.className = 'nut';
+          img.setAttribute('aria-hidden', 'true');
+          img.setAttribute('data-rot', ((Math.random()<0.5?-1:1) * (0.03 + Math.random()*0.06)).toFixed(3));
+          img.setAttribute('data-speed', (0.3 + Math.random()*0.5).toFixed(2));
+
+          img.style.width  = size + 'px';
+          img.style.height = size + 'px';
+          img.style.top  = (5 + Math.random()*88) + '%';
+          img.style.left = (5 + Math.random()*88) + '%';
+          img.style.opacity = opacity;
+          img.style.filter = 'blur(' + blur.toFixed(1) + 'px)';
+
+          mechOverlay.appendChild(img);
+        }
+      }
+    } catch(e) { /* si falla la generación de tuercas, seguimos con lo demás */ }
+
+    /* ---------------------------------------------------------
+       3) ANIMACIÓN DE LAS TUERCAS (giro + parallax)
+       El giro tiene dos componentes: uno lento y continuo (idle),
+       y otro que se dispara con la velocidad del scroll y se va
+       frenando solo — así se nota claramente que giran al hacer
+       scroll, sin quedar estáticas el resto del tiempo.
+    --------------------------------------------------------- */
+    try {
+      var reduceMotion2 = reduceMotion;
+      var mechOverlay2 = document.querySelector('.mech-overlay');
+      if (mechOverlay2 && !reduceMotion2) {
+        var mechEls = Array.prototype.map.call(
+          mechOverlay2.querySelectorAll('.nut'),
+          function(g){
+            return {
+              el: g,
+              rotSpeed: parseFloat(g.getAttribute('data-rot'))   || 0.05,
+              speed:    parseFloat(g.getAttribute('data-speed')) || 0.4,
+              rotation: Math.random()*360
+            };
           }
-          pt.x += pt.vx; pt.y += pt.vy;
-          if (pt.x < 0) pt.x = W; if (pt.x > W) pt.x = 0;
-          if (pt.y < 0) pt.y = H; if (pt.y > H) pt.y = 0;
+        );
 
-          var glowA = pt.alpha * (0.6 + 0.4*Math.sin(pt.phase));
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(90,175,225,'+(glowA*0.15)+')';
-          ctx.arc(pt.x, pt.y, pt.r*2.5, 0, Math.PI*2);
-          ctx.fill();
+        var mechMouseX = 0, mechMouseY = 0;
+        var lastScrollY = window.scrollY || document.documentElement.scrollTop;
+        var scrollYAbs = lastScrollY;
+        var scrollSpin = 0; // se acumula con el scroll y decae solo
 
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(90,175,225,'+glowA+')';
-          ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI*2);
-          ctx.fill();
-        }
+        window.addEventListener('mousemove', function(e){
+          mechMouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+          mechMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        }, {passive:true});
 
-        for (var si = 0; si < sparkles.length; si++){
-          var sp = sparkles[si];
-          sp.phase += 0.025;
-          if (hasPointer){
-            var sdx = sp.x-mouseX, sdy = sp.y-mouseY;
-            var sdist = Math.sqrt(sdx*sdx+sdy*sdy);
-            if (sdist < 100 && sdist > 0.001){
-              var sforce = (100-sdist)/100*0.5;
-              sp.x += (sdx/sdist)*sforce; sp.y += (sdy/sdist)*sforce;
-            }
+        window.addEventListener('scroll', function(){
+          var y = window.scrollY || document.documentElement.scrollTop;
+          var delta = y - lastScrollY;
+          lastScrollY = y;
+          scrollYAbs = y;
+          scrollSpin += delta;
+        }, {passive:true});
+
+        var animateMech = function(){
+          // decaimiento suave: si dejas de hacer scroll, el giro extra se apaga solo
+          scrollSpin *= 0.92;
+
+          mechEls.forEach(function(m){
+            // giro lento constante (idle) + giro extra proporcional al scroll
+            m.rotation += m.rotSpeed + scrollSpin * m.rotSpeed * 6;
+            var px = mechMouseX * 20 * m.speed;
+            var py = mechMouseY * 20 * m.speed + scrollYAbs * m.speed * 0.5;
+            m.el.style.transform = 'translate('+px+'px,'+py+'px) rotate('+m.rotation+'deg)';
+          });
+          requestAnimationFrame(animateMech);
+        };
+        requestAnimationFrame(animateMech);
+      }
+    } catch(e) { /* la mecánica no debe tumbar el cursor ni el tilt/glow */ }
+
+    /* ---------------------------------------------------------
+       4) CURSOR PERSONALIZADO
+    --------------------------------------------------------- */
+    try {
+      var cursorCore = document.querySelector('.cursor-core');
+      var cursorRing = document.querySelector('.cursor-ring');
+      if (cursorCore && cursorRing && isFinePointer && !reduceMotion) {
+        document.body.classList.add('fx-cursor-active');
+        var ringX = window.innerWidth/2, ringY = window.innerHeight/2;
+        var targetX = ringX, targetY = ringY;
+
+        window.addEventListener('mousemove', function(e){
+          targetX = e.clientX; targetY = e.clientY;
+          cursorCore.style.left = e.clientX+'px';
+          cursorCore.style.top  = e.clientY+'px';
+        }, {passive:true});
+
+        var ringLoop = function(){
+          ringX += (targetX - ringX) * 0.12;
+          ringY += (targetY - ringY) * 0.12;
+          cursorRing.style.left = ringX+'px';
+          cursorRing.style.top  = ringY+'px';
+          requestAnimationFrame(ringLoop);
+        };
+        requestAnimationFrame(ringLoop);
+
+        document.addEventListener('mouseover', function(e){
+          if (e.target.closest && e.target.closest('.clickable, a, button')) {
+            cursorRing.classList.add('cursor-hover');
           }
-          sp.x += sp.driftX; sp.y += sp.driftY;
-          if (sp.x < 0) sp.x = W; if (sp.x > W) sp.x = 0;
-          if (sp.y < 0) sp.y = H; if (sp.y > H) sp.y = 0;
-
-          var pulse = 0.5 + 0.5*Math.sin(sp.phase);
-          var haloR = sp.size*4;
-          var hg = ctx.createRadialGradient(sp.x, sp.y, 0, sp.x, sp.y, haloR);
-          hg.addColorStop(0, 'rgba(210,238,255,'+(0.10*pulse)+')');
-          hg.addColorStop(1, 'rgba(210,238,255,0)');
-          ctx.fillStyle = hg;
-          ctx.beginPath();
-          ctx.arc(sp.x, sp.y, haloR, 0, Math.PI*2);
-          ctx.fill();
-
-          ctx.beginPath();
-          ctx.fillStyle = 'rgba(240,250,255,'+(0.5+0.5*pulse)+')';
-          ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI*2);
-          ctx.fill();
-        }
-
-        for (var ri = ripples.length-1; ri >= 0; ri--){
-          var rp = ripples[ri];
-          var progress = rp.r / rp.maxR;
-          var growFactor = 1 - progress*0.5;
-          rp.r += 2.2*growFactor;
-          rp.alpha *= 0.985;
-
-          if (rp.alpha < 0.015 || rp.r >= rp.maxR){ ripples.splice(ri,1); continue; }
-
-          ctx.beginPath();
-          ctx.strokeStyle = 'hsla('+rp.hue+',65%,60%,'+rp.alpha+')';
-          ctx.lineWidth = 1.6;
-          ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI*2);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.strokeStyle = 'hsla('+rp.hue+',70%,72%,'+(rp.alpha*0.85)+')';
-          ctx.lineWidth = 1;
-          ctx.arc(rp.x, rp.y, rp.r*0.55, 0, Math.PI*2);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.strokeStyle = 'hsla('+rp.hue+',60%,80%,'+(rp.alpha*0.25)+')';
-          ctx.lineWidth = 0.8;
-          ctx.arc(rp.x, rp.y, rp.r*1.35, 0, Math.PI*2);
-          ctx.stroke();
-        }
-
-        if (hasPointer){
-          var cg = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 250);
-          cg.addColorStop(0, 'rgba(150,210,242,0.07)');
-          cg.addColorStop(1, 'rgba(150,210,242,0)');
-          ctx.fillStyle = cg;
-          ctx.beginPath();
-          ctx.arc(mouseX, mouseY, 250, 0, Math.PI*2);
-          ctx.fill();
-        }
-
-        requestAnimationFrame(drawWater);
+        });
+        document.addEventListener('mouseout', function(e){
+          if (e.target.closest && e.target.closest('.clickable, a, button')) {
+            cursorRing.classList.remove('cursor-hover');
+          }
+        });
       }
-      requestAnimationFrame(drawWater);
-    }
-  }
+    } catch(e) { /* el cursor no debe tumbar el tilt/glow */ }
 
-  /* ---------------------------------------------------------
-     2) OVERLAY MECÁNICO (engranajes / tuercas flotantes)
-  --------------------------------------------------------- */
-  var mechOverlay = document.querySelector('.mech-overlay');
-  if (mechOverlay && !reduceMotion) {
-    var gears = mechOverlay.querySelectorAll('.gear, .nut');
-    var mechMouseX = 0, mechMouseY = 0, mechScrollY = 0, mechTime = 0;
+    /* ---------------------------------------------------------
+       5) TILT MAGNÉTICO + HOVER GLOW (tarjetas y botones)
+    --------------------------------------------------------- */
+    try {
+      if (isFinePointer) {
+        var glowTargets = document.querySelectorAll(
+          '.neu-btn, .stat-card, .marca-card, .cert-card, .news-card, .sede-card, .contact-card, .cta-band'
+        );
+        glowTargets.forEach(function(el){
+          el.classList.add('fx-glow');
+          el.addEventListener('mousemove', function(e){
+            var r = el.getBoundingClientRect();
+            var mx = ((e.clientX - r.left) / r.width) * 100;
+            var my = ((e.clientY - r.top) / r.height) * 100;
+            el.style.setProperty('--mx', mx+'%');
+            el.style.setProperty('--my', my+'%');
+          });
+        });
 
-    window.addEventListener('mousemove', function(e){
-      mechMouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-      mechMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    }, {passive:true});
-
-    window.addEventListener('scroll', function(){
-      mechScrollY = window.scrollY || document.documentElement.scrollTop;
-    }, {passive:true});
-
-    function animateMech(){
-      mechTime += 1;
-      gears.forEach(function(g){
-        var rotSpeed = parseFloat(g.getAttribute('data-rot'))   || 0.05;
-        var speed    = parseFloat(g.getAttribute('data-speed')) || 0.4;
-        var rotation = mechTime * rotSpeed;
-        var px = mechMouseX * 20 * speed;
-        var py = mechMouseY * 20 * speed + mechScrollY * speed * 0.5;
-        g.style.transform = 'translate('+px+'px,'+py+'px) rotate('+rotation+'deg)';
-      });
-      requestAnimationFrame(animateMech);
-    }
-    requestAnimationFrame(animateMech);
-  }
-
-  /* ---------------------------------------------------------
-     3) CURSOR PERSONALIZADO
-  --------------------------------------------------------- */
-  var cursorCore = document.querySelector('.cursor-core');
-  var cursorRing = document.querySelector('.cursor-ring');
-  if (cursorCore && cursorRing && isFinePointer && !reduceMotion) {
-    document.body.classList.add('fx-cursor-active');
-    var ringX = window.innerWidth/2, ringY = window.innerHeight/2;
-    var targetX = ringX, targetY = ringY;
-
-    window.addEventListener('mousemove', function(e){
-      targetX = e.clientX; targetY = e.clientY;
-      cursorCore.style.left = e.clientX+'px';
-      cursorCore.style.top  = e.clientY+'px';
-    }, {passive:true});
-
-    function ringLoop(){
-      ringX += (targetX - ringX) * 0.12;
-      ringY += (targetY - ringY) * 0.12;
-      cursorRing.style.left = ringX+'px';
-      cursorRing.style.top  = ringY+'px';
-      requestAnimationFrame(ringLoop);
-    }
-    requestAnimationFrame(ringLoop);
-
-    document.addEventListener('mouseover', function(e){
-      if (e.target.closest && e.target.closest('.clickable, a, button')) {
-        cursorRing.classList.add('cursor-hover');
+        var tiltTargets = document.querySelectorAll(
+          '.stat-card, .marca-card, .cert-card, .news-card, .sede-card, .contact-card'
+        );
+        tiltTargets.forEach(function(el){
+          el.classList.add('fx-tilt');
+          el.addEventListener('mousemove', function(e){
+            el.style.transition = 'none';
+            var r = el.getBoundingClientRect();
+            var px = (e.clientX - r.left) / r.width  - 0.5;
+            var py = (e.clientY - r.top)  / r.height - 0.5;
+            var rotY = Math.max(-3, Math.min(3, px*6));
+            var rotX = Math.max(-3, Math.min(3, -py*6));
+            el.style.transform = 'translateY(-8px) scale(1.01) rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
+          });
+          el.addEventListener('mouseleave', function(){
+            el.style.transition = 'transform .5s var(--ease)';
+            el.style.transform = '';
+          });
+        });
       }
-    });
-    document.addEventListener('mouseout', function(e){
-      if (e.target.closest && e.target.closest('.clickable, a, button')) {
-        cursorRing.classList.remove('cursor-hover');
-      }
-    });
-  }
+    } catch(e) { /* último bloque: si falla, no afecta nada más */ }
 
-  /* ---------------------------------------------------------
-     4) TILT MAGNÉTICO + HOVER GLOW (tarjetas y botones)
-  --------------------------------------------------------- */
-  if (isFinePointer) {
-    var glowTargets = document.querySelectorAll(
-      '.neu-btn, .stat-card, .marca-card, .cert-card, .news-card, .sede-card, .contact-card, .cta-band'
-    );
-    glowTargets.forEach(function(el){
-      el.classList.add('fx-glow');
-      el.addEventListener('mousemove', function(e){
-        var r = el.getBoundingClientRect();
-        var mx = ((e.clientX - r.left) / r.width) * 100;
-        var my = ((e.clientY - r.top) / r.height) * 100;
-        el.style.setProperty('--mx', mx+'%');
-        el.style.setProperty('--my', my+'%');
-      });
-    });
+  } // fin initFX
 
-    var tiltTargets = document.querySelectorAll(
-      '.stat-card, .marca-card, .cert-card, .news-card, .sede-card, .contact-card'
-    );
-    tiltTargets.forEach(function(el){
-      el.classList.add('fx-tilt');
-      el.addEventListener('mousemove', function(e){
-        el.style.transition = 'none';
-        var r = el.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width  - 0.5;
-        var py = (e.clientY - r.top)  / r.height - 0.5;
-        var rotY = Math.max(-3, Math.min(3, px*6));
-        var rotX = Math.max(-3, Math.min(3, -py*6));
-        el.style.transform = 'translateY(-8px) scale(1.01) rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
-      });
-      el.addEventListener('mouseleave', function(){
-        el.style.transition = 'transform .5s var(--ease)';
-        el.style.transform = '';
-      });
-    });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFX);
+  } else {
+    initFX();
   }
 
 })();

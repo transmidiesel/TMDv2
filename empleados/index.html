@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Servicios — Transmidiesel S.A.S</title>
+<title>Empleados — Transmidiesel S.A.S</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,9 +29,9 @@
     <nav class="links">
       <a href="../">Inicio</a>
       <a href="../quienes-somos/">Quiénes Somos</a>
-      <a href="./" class="active">Servicios</a>
+      <a href="../servicios/">Servicios</a>
       <a href="../productos/">Productos</a>
-      <a href="../empleados/">Empleados</a>
+      <a href="./" class="active">Empleados</a>
       <a href="../contactenos/">Contáctenos</a>
     </nav>
     <div class="nav-cta">
@@ -50,40 +50,34 @@
 <!-- ================= HERO ================= -->
 <section class="page-hero" style="padding-top:170px;">
   <div class="wrap">
-    <span class="kicker">Lo que hacemos</span>
-    <h1>Nuestros Servicios</h1>
-    <p>Soluciones integrales de ingeniería, mantenimiento y soporte técnico para los sectores industrial, naval, agrícola, minero y petrolero. Esta página se ampliará próximamente con el detalle de cada servicio.</p>
+    <span class="kicker">Recursos Humanos</span>
+    <h1>Empleados</h1>
+    <p>Espacio informativo para nuestro equipo. Ingresa tu número de cédula para consultar el reglamento interno de trabajo.</p>
   </div>
 </section>
 
-<!-- ================= LISTADO PLACEHOLDER ================= -->
+<!-- ================= VALIDACIÓN ================= -->
 <section class="tint">
   <div class="wrap">
     <div class="section-head reveal">
-      <h2>Servicios disponibles</h2>
-      <p>Estamos preparando el contenido detallado. Muy pronto encontrarás aquí la información de cada uno.</p>
+      <span class="kicker">Acceso</span>
+      <h2>Consulta el Reglamento Interno</h2>
+      <p>Ingresa tu cédula. Si estás registrado, podrás abrir el documento.</p>
     </div>
-    <div class="chip-grid">
-      <div class="chip glass reveal">
-        <div class="mark">⚙</div>
-        <div class="name">Mantenimiento</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🔧</div>
-        <div class="name">Reparación</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🚢</div>
-        <div class="name">Soporte Naval</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🏭</div>
-        <div class="name">Asesoría Técnica</div>
-        <div class="tag">Próximamente</div>
-      </div>
+
+    <div class="prose-card glass reveal" style="max-width:560px;margin:0 auto;">
+      <form id="formEmpleado" autocomplete="off" novalidate>
+        <div class="form-group">
+          <label for="cedula" class="form-label">Número de cédula <span class="form-req">*</span></label>
+          <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Ej. 1234567890" inputmode="numeric" required>
+        </div>
+        <div class="form-actions" style="justify-content:center;">
+          <button type="submit" class="neu-btn primary magnetic" id="btnValidar">
+            <span id="btnValidarText">Validar y abrir reglamento</span>
+          </button>
+        </div>
+        <div id="formEmpleadoStatus" class="form-status" style="display:none;" role="alert"></div>
+      </form>
     </div>
   </div>
 </section>
@@ -92,7 +86,7 @@
 <section id="contacto">
   <div class="wrap">
     <div class="cta-band glass reveal">
-      <h2>¿Necesitas un servicio específico?</h2>
+      <h2>¿Necesitas más información?</h2>
       <p>Escríbenos y con gusto te asesoramos.</p>
       <a href="../contactenos/" class="neu-btn primary magnetic">Ir a Contáctenos</a>
     </div>
@@ -120,9 +114,9 @@
         <ul>
           <li><a href="../">Inicio</a></li>
           <li><a href="../quienes-somos/">Quiénes Somos</a></li>
-          <li><a href="./">Servicios</a></li>
+          <li><a href="../servicios/">Servicios</a></li>
           <li><a href="../productos/">Productos</a></li>
-          <li><a href="../empleados/">Empleados</a></li>
+          <li><a href="./">Empleados</a></li>
           <li><a href="../contactenos/">Contáctenos</a></li>
         </ul>
       </div>
@@ -144,7 +138,6 @@
       </div>
     </div>
 
-    <!-- Fila de certificados organizada en la parte inferior (sin recuadros) -->
     <div class="footer-certs-strip">
       <div class="footer-certs">
         <a href="https://drive.google.com/file/d/1tUCS5XpRbFDOzavGLTw8GLl5oagov1KM/view" target="_blank" rel="noopener" class="footer-cert" aria-label="Certificación Coface" title="Certificado Coface">
@@ -190,7 +183,6 @@
 
 <!-- ================= WHATSAPP MODULE ================= -->
 <div class="wa-float" id="waFloat">
-
   <div class="wa-panel glass" id="waPanel">
     <div class="wa-head">
       <div class="wa-logo">
@@ -233,9 +225,158 @@
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5z"/></svg>
     </a>
   </div>
+</div>
 
+<!-- ================= MODAL DE AGRADECIMIENTO ================= -->
+<div class="empleado-modal-overlay" id="empleadoModal">
+  <div class="empleado-modal glass" role="dialog" aria-modal="true" aria-labelledby="empleadoModalTitle">
+    <div class="empleado-modal-check" aria-hidden="true">
+      <svg viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="24" stroke="currentColor" stroke-width="2"/>
+        <path d="M14 27l8 8 16-16" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 id="empleadoModalTitle">¡Bienvenido!</h3>
+    <p id="empleadoModalMsg">Gracias por consultar el reglamento.</p>
+    <div class="empleado-modal-actions">
+      <a href="#" id="empleadoModalLink" target="_blank" rel="noopener" class="neu-btn primary magnetic">Abrir reglamento</a>
+      <button type="button" id="empleadoModalClose" class="neu-btn magnetic">Cerrar</button>
+    </div>
+  </div>
 </div>
 
 <script src="../script.js" defer></script>
+
+<!-- ================= SCRIPT DE VALIDACIÓN DE EMPLEADO ================= -->
+<script>
+(function(){
+
+  // =====================================================================
+  // CONFIGURACIÓN: pega aquí la URL de tu Web App de Google Apps Script
+  // Ejemplo: "https://script.google.com/macros/s/AKfycb.../exec"
+  // =====================================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzScfIYP6Cbrm6PndlmonpyBE0jWCJXNDI2w_D99B9Bba0JtS_L3PKWxd5Qxt38r-i5gw/exec";
+
+  const form     = document.getElementById('formEmpleado');
+  const input    = document.getElementById('cedula');
+  const btn      = document.getElementById('btnValidar');
+  const btnText  = document.getElementById('btnValidarText');
+  const statusEl = document.getElementById('formEmpleadoStatus');
+
+  const modal      = document.getElementById('empleadoModal');
+  const modalMsg   = document.getElementById('empleadoModalMsg');
+  const modalLink  = document.getElementById('empleadoModalLink');
+  const modalClose = document.getElementById('empleadoModalClose');
+
+  // ---------- Obtener IP pública del usuario con un servicio externo ----------
+  async function obtenerIP() {
+    try {
+      const r = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+      const d = await r.json();
+      return d.ip || 'No disponible';
+    } catch (e) {
+      return 'No disponible';
+    }
+  }
+
+  // ---------- Mostrar estado ----------
+  function setStatus(type, html) {
+    statusEl.className = 'form-status ' + type;
+    const icon = type === 'success' ? '✅' : '⚠️';
+    statusEl.innerHTML = '<span class="ic-status">' + icon + '</span><div>' + html + '</div>';
+    statusEl.style.display = 'flex';
+  }
+  function clearStatus() {
+    statusEl.style.display = 'none';
+    statusEl.innerHTML = '';
+  }
+
+  // ---------- Abrir modal ----------
+  function abrirModal(nombre, apellido, urlReglamento) {
+    modalMsg.innerHTML = 'Hola <strong>' + nombre + ' ' + apellido + '</strong>, gracias por consultar el reglamento interno de trabajo.';
+    modalLink.href = urlReglamento || '#';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  modalClose.addEventListener('click', cerrarModal);
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) cerrarModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) cerrarModal();
+  });
+
+  // ---------- Envío del formulario ----------
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const cedula = (input.value || '').replace(/\D/g, '');
+
+    if (!cedula) {
+      setStatus('error', 'Por favor ingresa tu número de cédula.');
+      return;
+    }
+
+    // Estado cargando
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btnText.textContent = 'Validando...';
+    clearStatus();
+
+    try {
+      const ip = await obtenerIP();
+      const userAgent = navigator.userAgent || '';
+
+      const payload = {
+        cedula: cedula,
+        ip: ip,
+        userAgent: userAgent
+      };
+
+      // Una sola llamada al Apps Script: guarda el registro Y devuelve el JSON.
+      // (Antes había dos fetch y por eso se guardaba doble.)
+      let data = null;
+      try {
+        const r2 = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        data = await r2.json();
+      } catch (e2) {
+        data = null;
+      }
+
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btnText.textContent = 'Validar y abrir reglamento';
+
+      if (data && data.status === 'ok') {
+        abrirModal(data.nombre, data.apellido, data.reglamento);
+        setStatus('success', 'Cédula verificada. Abriendo reglamento…');
+        input.value = '';
+      } else if (data && data.status === 'error') {
+        setStatus('error', data.message || 'La cédula no está registrada.');
+      } else {
+        // Si no pudimos leer la respuesta, no podemos asegurar si fue ok o error
+        setStatus('error', 'No se pudo validar la cédula. Inténtalo de nuevo.');
+      }
+
+    } catch (err) {
+      console.error('Error validando cédula:', err);
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btnText.textContent = 'Validar y abrir reglamento';
+      setStatus('error', 'Hubo un problema de conexión. Inténtalo de nuevo más tarde.');
+    }
+  });
+
+})();
+</script>
+
 </body>
 </html>
