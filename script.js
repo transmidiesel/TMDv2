@@ -17,7 +17,7 @@ function updateNavbarState(){
     // Calculamos la posición real del final del hero en el documento
     const rect = heroScrollEl.getBoundingClientRect();
     const heroTop = rect.top + scrollTop;              // dónde empieza el hero en el documento
-    const heroHeight = heroScrollEl.offsetHeight;      // alto total del hero (300vh)
+    const heroHeight = heroScrollEl.offsetHeight;      // alto total del hero
     const heroEnd = heroTop + heroHeight - window.innerHeight; // momento en que el sticky se suelta
 
     trigger = Math.max(heroEnd - 40, 40);              // 40px de margen
@@ -93,6 +93,10 @@ const io = new IntersectionObserver((entries)=>{
   });
 }, {threshold:0.15, rootMargin:'0px 0px -6% 0px'});
 revealEls.forEach(el=>io.observe(el));
+// Exponer función para nuevos .reveal inyectados dinámicamente
+window.revelarNuevos = function(container) {
+  container.querySelectorAll('.reveal').forEach(el => io.observe(el));
+};
 
 // ---- Magnetic buttons ----
 document.querySelectorAll('.magnetic').forEach(btn=>{
@@ -141,20 +145,22 @@ if (sectorCarousel) {
 // (El contador animado de indicadores ahora vive dentro del observer de .reveal, más arriba)
 
 // ---- Pop-up escalonado para marcas y certificaciones (bidireccional) ----
-const revealPops = document.querySelectorAll('.reveal-pop');
-if (revealPops.length) {
-  const popObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Se anima una sola vez: dejamos de observar este elemento
-        popObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin:'0px 0px -6% 0px' });
+const popObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Se anima una sola vez: dejamos de observar este elemento
+      popObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin:'0px 0px -6% 0px' });
 
-  revealPops.forEach(el => popObserver.observe(el));
-}
+document.querySelectorAll('.reveal-pop').forEach(el => popObserver.observe(el));
+
+// Exponer función para nuevos .reveal-pop inyectados dinámicamente
+window.revelarPops = function(container) {
+  container.querySelectorAll('.reveal-pop').forEach(el => popObserver.observe(el));
+};
 
 // ---- Hero: video de fondo + capas de texto controladas por scroll ----
 (function(){
@@ -164,6 +170,13 @@ if (revealPops.length) {
   const layerA      = document.querySelector('.hero-layer-a');
   const layerB      = document.querySelector('.hero-layer-b');
   if (!heroScroll || !heroVideo) return;
+
+  // --- Secuencia de imágenes "Sectores que respaldamos" ---
+  const sectorTrack    = document.getElementById('heroSectorsTrack');
+  const sectorImgs     = sectorTrack
+    ? Array.prototype.slice.call(sectorTrack.querySelectorAll('.hero-sector-img'))
+    : [];
+  const SECTORS_TOTAL  = sectorImgs.length; // 6
 
   let duration = 0;
   let ticking  = false;
@@ -218,23 +231,72 @@ if (revealPops.length) {
     let progress = (scrollTop - start) / total;
     progress = Math.min(Math.max(progress, 0), 1);
 
+    // --- Video scrub ---
     if (duration) {
       targetVideoTime = progress * duration;
       ensureScrubLoop();
     }
 
-    // Capa A: visible al inicio, se desvanece entre 0.05 y 0.30
+    // Capa A: visible al inicio, se desvanece entre 0.00 y 0.10
     if (layerA) {
-      const aOpacity = 1 - rangeProgress(progress, 0.05, 0.30);
+      const aOpacity = 1 - rangeProgress(progress, 0.00, 0.10);
       layerA.style.opacity = aOpacity;
       layerA.style.transform = `translateY(-50%) translateY(${(1 - aOpacity) * -30}px)`;
     }
 
-    // Capa B: aparece entre 0.35 y 0.60, se queda hasta el final
+    // Capa B: aparece entre 0.10 y 0.16, se queda hasta el final
+    let bOpacity = 0;
     if (layerB) {
-      const bOpacity = rangeProgress(progress, 0.35, 0.60);
+      bOpacity = rangeProgress(progress, 0.10, 0.16);
       layerB.style.opacity = bOpacity;
       layerB.style.transform = `translateY(-50%) translateY(${(1 - bOpacity) * 30}px)`;
+    }
+
+    // --- Secuencia de imágenes de sectores (full-screen) ---
+    // Las imágenes arrancan DESPUÉS de que la Capa B (texto "Sectores que
+    // respaldamos" + subtítulo) termine de aparecer, para que el usuario
+    // tenga tiempo de leer antes de que empiece la secuencia visual.
+    // Rango total 0.20 → 0.96 repartido entre las 6 imágenes.
+    // Cada imagen se revela durante el 55% inicial de su tramo.
+    // Como son capas full-screen, el transform es solo horizontal (X).
+    if (SECTORS_TOTAL > 0 && bOpacity > 0) {
+      const SEQ_START  = 0.20;   // antes 0.14: dejamos respirar el texto
+      const SEQ_END    = 0.96;   // antes 0.94
+      const seqSpan    = SEQ_END - SEQ_START;
+      const step       = seqSpan / SECTORS_TOTAL;
+      const ENTER_RATIO = 0.55;
+
+      for (let i = 0; i < SECTORS_TOTAL; i++) {
+        const el      = sectorImgs[i];
+        const tInicio = SEQ_START + step * i;
+        const tFin    = tInicio + step * ENTER_RATIO;
+
+        const local = rangeProgress(progress, tInicio, tFin);
+        const eased = 1 - Math.pow(1 - local, 3); // easeOutCubic
+
+        el.style.opacity = eased;
+
+        const side = el.getAttribute('data-side');
+
+        if (side === 'center') {
+          // Imagen final: zoom suave desde 1.10 → 1.0, sin desplazamiento
+          const s = 1.10 - 0.10 * eased;
+          el.style.transform = `translate3d(0, 0, 0) scale(${s})`;
+        } else {
+          // Full-screen lateral: entra desde fuera de la pantalla
+          const dir  = (side === 'left') ? -1 : 1;
+          const dist = 100 * (1 - eased);   // 100% → 0%
+          const px   = dir * dist;
+          const s    = 1.06 - 0.06 * eased; // 1.06 → 1.0
+          el.style.transform = `translate3d(${px}%, 0, 0) scale(${s})`;
+        }
+
+        if (eased > 0.01) {
+          el.classList.add('is-visible');
+        } else {
+          el.classList.remove('is-visible');
+        }
+      }
     }
 
     if (scrollHint) scrollHint.style.opacity = Math.max(1 - progress * 6, 0);
@@ -780,4 +842,80 @@ if (revealPops.length) {
     initFX();
   }
 
+})();
+
+// =========================================================
+// MEGA MENÚ · PRODUCTOS
+// Escritorio: se abre al pasar el cursor (con pequeño retardo de cierre)
+//   o con foco de teclado; clic en "Productos" sigue llevando a productos/.
+// Táctil / móvil: el primer toque abre el menú, no navega.
+// Esc o clic fuera lo cierran.
+// =========================================================
+(function () {
+  const header  = document.getElementById('navHeader');
+  const btn     = document.getElementById('megaBtn');
+  const menu    = document.getElementById('megaMenu');
+  const burgerB = document.getElementById('burgerBtn');
+  const linksEl = document.querySelector('nav.links');
+  if (!header || !btn || !menu) return;
+
+  const mqTouch = window.matchMedia('(hover: none), (max-width: 900px)');
+  let closeTimer = null;
+
+  function open() {
+    clearTimeout(closeTimer);
+    header.classList.add('mega-open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    clearTimeout(closeTimer);
+    header.classList.remove('mega-open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  function closeSoon() {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(close, 180);
+  }
+
+  // Hover (solo si el dispositivo realmente tiene hover y hay espacio de escritorio)
+  [btn, menu].forEach(el => {
+    el.addEventListener('mouseenter', () => { if (!mqTouch.matches) open(); });
+    el.addEventListener('mouseleave', () => { if (!mqTouch.matches) closeSoon(); });
+  });
+
+  // Teclado: el foco dentro del trigger o del panel lo mantiene abierto
+  btn.addEventListener('focus', () => { if (!mqTouch.matches) open(); });
+  header.addEventListener('focusout', (e) => {
+    const to = e.relatedTarget;
+    if (!to || (!menu.contains(to) && to !== btn)) closeSoon();
+  });
+  btn.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); open(); const first = menu.querySelector('a'); if (first) first.focus(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('mega-open')) { close(); btn.focus({preventScroll:true}); }
+  });
+
+  // Táctil / móvil: primer toque abre, segundo toque (o el enlace "Ver todo") navega
+  btn.addEventListener('click', (e) => {
+    if (!mqTouch.matches) return;           // escritorio: el enlace navega normal
+    e.preventDefault();                       // (el listener de transición respeta defaultPrevented)
+    if (header.classList.contains('mega-open')) { close(); return; }
+    if (linksEl) linksEl.style.cssText = ''; // cierra el panel del burger si estaba abierto
+    open();
+  });
+
+  // Clic fuera o en un enlace del panel → cerrar
+  document.addEventListener('click', (e) => {
+    if (!header.classList.contains('mega-open')) return;
+    if (btn.contains(e.target)) return;
+    if (menu.contains(e.target)) { if (e.target.closest('a')) close(); return; }
+    close();
+  });
+
+  // Abrir el burger cierra el mega menú
+  if (burgerB) burgerB.addEventListener('click', close);
+
+  // Al cambiar de escritorio a móvil (o viceversa) reiniciamos el estado
+  mqTouch.addEventListener('change', close);
 })();

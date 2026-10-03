@@ -1,0 +1,27 @@
+# =========================================================
+# Proteger archivos sensibles
+# =========================================================
+
+# Bloquear acceso al .env y otros archivos ocultos
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "^\.git">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a la carpeta includes/ y logs/
+RedirectMatch 403 ^/includes/.*\.php$
+RedirectMatch 403 ^/logs/.*$
+
+# Bloquear listado de directorios
+Options -Indexes
+
+# Bloquear acceso a archivos .log, .sql, .bak
+<FilesMatch "\.(log|sql|bak|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

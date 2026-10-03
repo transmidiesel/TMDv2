@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../styles.css?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="../logos/favicon_io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../logos/favicon_io/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../logos/favicon_io/apple-touch-icon.png">
@@ -19,23 +19,75 @@
 
 <!-- ================= NAVBAR ================= -->
 <header class="nav nav-solid" id="navHeader">
-  <div class="wrap nav-inner">
-    <div class="logo-wrap">
-      <a href="../" class="logo-box">
-        <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
-      </a>
+  <div class="nav-shell">
+    <div class="wrap nav-inner">
+      <div class="logo-wrap">
+        <a href="../" class="logo-box">
+          <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+        </a>
+      </div>
+      <nav class="links">
+        <a href="../">Inicio</a>
+        <a href="../quienes-somos/">Quiénes Somos</a>
+        <a href="../servicios/" class="active">Servicios</a>
+        <a href="../productos/" class="mega-trigger" id="megaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="megaMenu">Productos <svg class="mega-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="../empleados/">Empleados</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="../contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
+        <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+      </div>
     </div>
-    <nav class="links">
-      <a href="../">Inicio</a>
-      <a href="../quienes-somos/">Quiénes Somos</a>
-      <a href="./" class="active">Servicios</a>
-      <a href="../productos/">Productos</a>
-      <a href="../empleados/">Empleados</a>
-    </nav>
-    <div class="nav-cta">
-      <a href="../contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
-      <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+
+    <!-- MEGA MENÚ · PRODUCTOS -->
+    <div class="mega-menu" id="megaMenu" role="region" aria-label="Menú de productos">
+      <div class="mega-grid">
+        <div class="mega-feature">
+          <span class="mega-eyebrow">Catálogo</span>
+          <h4>Equipos industriales y repuestos</h4>
+          <p>Importación y comercialización de equipos con respaldo de marcas reconocidas globalmente y amplio stock.</p>
+          <a href="../productos/" class="mega-feature-btn">Ver todo el catálogo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-8 4 4 8-11"/><path d="M14 5h6v6"/></svg></span><strong>Por sector</strong></div>
+          <a href="../productos/#naval">Naval</a>
+          <a href="../productos/#agricola">Agrícola</a>
+          <a href="../productos/#petrolero">Petrolero</a>
+          <a href="../productos/#minero">Minero</a>
+          <a href="../productos/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7v6c0 4 3.4 7 8 8 4.6-1 8-4 8-8V7l-8-4z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Marcas</strong></div>
+          <a href="../productos/#oxe-marine">OXE Marine</a>
+          <a href="../productos/#duramax">Duramax®</a>
+          <a href="../#marcas">Todas las marcas</a>
+          <a href="../productos/" class="view-all">Ver todas</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></span><strong>Servicios</strong></div>
+          <a href="../servicios/#reparacion">Reparación y mantenimiento</a>
+          <a href="../servicios/#alquiler">Alquiler de equipos</a>
+          <a href="../servicios/#repuestos">Venta de equipos y repuestos</a>
+          <a href="../servicios/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-special">
+          <a href="../contactenos/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z"/></svg></span>
+            <span><strong>Cotiza tu equipo</strong><small>Te asesoramos sin compromiso</small></span>
+          </a>
+          <a href="../servicios/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
+            <span><strong>Servicio técnico</strong><small>Taller y soporte especializado</small></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </header>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=mega1">
 <link rel="icon" type="image/png" sizes="32x32" href="logos/favicon_io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="logos/favicon_io/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="logos/favicon_io/apple-touch-icon.png">
@@ -19,24 +19,76 @@
 
 <!-- ================= NAVBAR ================= -->
 <header class="nav" id="navHeader">
-  <div class="wrap nav-inner">
-        <div class="logo-wrap">
-      <div class="logo-box">
-        <img src="logos/Logo2.png" alt="Transmidiesel" class="logo-top" onerror="this.style.display='none';">
-        <img src="logos/Logo.png" alt="Transmidiesel" class="logo-scrolled" onerror="this.style.display='none';">
-        <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+  <div class="nav-shell">
+    <div class="wrap nav-inner">
+      <div class="logo-wrap">
+        <div class="logo-box">
+          <img id="navLogoTop" src="logos/Logo2.png" alt="Transmidiesel" class="logo-top" onerror="this.style.display='none';">
+          <img id="navLogoScrolled" src="logos/Logo.png" alt="Transmidiesel" class="logo-scrolled" onerror="this.style.display='none';">
+          <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+        </div>
+      </div>
+      <nav class="links">
+        <a href=".">Inicio</a>
+        <a href="quienes-somos/">Quiénes Somos</a>
+        <a href="servicios/">Servicios</a>
+        <a href="productos/" class="mega-trigger" id="megaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="megaMenu">Productos <svg class="mega-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="empleados/">Empleados</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
+        <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
       </div>
     </div>
-    <nav class="links">
-      <a href=".">Inicio</a>
-      <a href="quienes-somos/">Quiénes Somos</a>
-      <a href="servicios/">Servicios</a>
-      <a href="productos/">Productos</a>
-      <a href="empleados/">Empleados</a>
-    </nav>
-    <div class="nav-cta">
-      <a href="contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
-      <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+
+    <!-- MEGA MENÚ · PRODUCTOS -->
+    <div class="mega-menu" id="megaMenu" role="region" aria-label="Menú de productos">
+      <div class="mega-grid">
+        <div class="mega-feature">
+          <span class="mega-eyebrow">Catálogo</span>
+          <h4>Equipos industriales y repuestos</h4>
+          <p>Importación y comercialización de equipos con respaldo de marcas reconocidas globalmente y amplio stock.</p>
+          <a href="productos/" class="mega-feature-btn">Ver todo el catálogo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-8 4 4 8-11"/><path d="M14 5h6v6"/></svg></span><strong>Por sector</strong></div>
+          <a href="productos/#naval">Naval</a>
+          <a href="productos/#agricola">Agrícola</a>
+          <a href="productos/#petrolero">Petrolero</a>
+          <a href="productos/#minero">Minero</a>
+          <a href="productos/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7v6c0 4 3.4 7 8 8 4.6-1 8-4 8-8V7l-8-4z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Marcas</strong></div>
+          <a href="productos/#oxe-marine">OXE Marine</a>
+          <a href="productos/#duramax">Duramax®</a>
+          <a href="#marcas">Todas las marcas</a>
+          <a href="productos/" class="view-all">Ver todas</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></span><strong>Servicios</strong></div>
+          <a href="servicios/#reparacion">Reparación y mantenimiento</a>
+          <a href="servicios/#alquiler">Alquiler de equipos</a>
+          <a href="servicios/#repuestos">Venta de equipos y repuestos</a>
+          <a href="servicios/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-special">
+          <a href="contactenos/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z"/></svg></span>
+            <span><strong>Cotiza tu equipo</strong><small>Te asesoramos sin compromiso</small></span>
+          </a>
+          <a href="servicios/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
+            <span><strong>Servicio técnico</strong><small>Taller y soporte especializado</small></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -86,56 +138,54 @@
         <p class="hero-sector-sub">
           Con soluciones especializadas y el respaldo de un equipo comprometido con la eficiencia y el rendimiento.
         </p>
-
-        <div class="hero-sectors" role="list">
-          <div class="hero-sector" role="listitem">
-            <svg class="sector-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 21V9l6-4 6 4v12"/>
-              <path d="M9 21V13h6v8"/>
-              <path d="M21 21V11l-4-2"/>
-              <path d="M19 21v-4"/>
-            </svg>
-            <span>Industrial</span>
-          </div>
-          <div class="hero-sector" role="listitem">
-            <svg class="sector-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 22V12"/>
-              <path d="M12 12c-3 0-5-2-5-5s2-5 5-5 5 2 5 5-2 5-5 5z"/>
-              <path d="M8 22h8"/>
-              <path d="M12 12V6"/>
-            </svg>
-            <span>Agrícola</span>
-          </div>
-          <div class="hero-sector" role="listitem">
-            <svg class="sector-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="5" r="2"/>
-              <path d="M12 7v14"/>
-              <path d="M5 12l7-3 7 3"/>
-              <path d="M5 12v7"/>
-              <path d="M19 12v7"/>
-            </svg>
-            <span>Naval</span>
-          </div>
-          <div class="hero-sector" role="listitem">
-            <svg class="sector-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8 3v8l-2 4v6h4v-6l-2-4V3"/>
-              <path d="M16 3v8l-2 4v6h4v-6l-2-4V3"/>
-              <path d="M10 3h-4"/>
-              <path d="M18 3h-4"/>
-            </svg>
-            <span>Petrolero</span>
-          </div>
-          <div class="hero-sector" role="listitem">
-            <svg class="sector-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 20l6-8 4 4 8-11"/>
-              <path d="M14 5h6v6"/>
-            </svg>
-            <span>Minero</span>
-          </div>
-        </div>
       </div>
 
     </div>
+
+    <!-- ===== SECUENCIA DE IMÁGENES DE SECTORES (scroll-driven) =====
+         Va DENTRO de .hero-pin (pantalla completa) y FUERA de .hero-layer-b
+         para que las imágenes puedan entrar desde fuera de la pantalla. -->
+    <div class="hero-sectors-track" id="heroSectorsTrack">
+      <figure class="hero-sector-img" data-side="left">
+        <img src="img-hero/Naval-hero.jpg" alt="Sector Naval" loading="lazy" decoding="async">
+        <figcaption class="hero-sector-caption">
+          <span class="hero-sector-caption-kicker">Sector</span>
+          <span class="hero-sector-caption-name">Naval</span>
+        </figcaption>
+      </figure>
+      <figure class="hero-sector-img" data-side="right">
+        <img src="img-hero/Agrícola-hero.jpg" alt="Sector Agrícola" loading="lazy" decoding="async">
+        <figcaption class="hero-sector-caption">
+          <span class="hero-sector-caption-kicker">Sector</span>
+          <span class="hero-sector-caption-name">Agrícola</span>
+        </figcaption>
+      </figure>
+      <figure class="hero-sector-img" data-side="left">
+        <img src="img-hero/Petrolero-hero.jpg" alt="Sector Petrolero" loading="lazy" decoding="async">
+        <figcaption class="hero-sector-caption">
+          <span class="hero-sector-caption-kicker">Sector</span>
+          <span class="hero-sector-caption-name">Petrolero</span>
+        </figcaption>
+      </figure>
+      <figure class="hero-sector-img" data-side="right">
+        <img src="img-hero/Minero-hero.jpg" alt="Sector Minero" loading="lazy" decoding="async">
+        <figcaption class="hero-sector-caption">
+          <span class="hero-sector-caption-kicker">Sector</span>
+          <span class="hero-sector-caption-name">Minero</span>
+        </figcaption>
+      </figure>
+      <figure class="hero-sector-img" data-side="left">
+        <img src="img-hero/Industrial-hero.jpg" alt="Sector Industrial" loading="lazy" decoding="async">
+        <figcaption class="hero-sector-caption">
+          <span class="hero-sector-caption-kicker">Sector</span>
+          <span class="hero-sector-caption-name">Industrial</span>
+        </figcaption>
+      </figure>
+      <figure class="hero-sector-img hero-sector-img--final" data-side="center">
+        <img src="img-hero/banner-final.jpg" alt="Transmidiesel" loading="lazy" decoding="async">
+      </figure>
+    </div>
+    <!-- ===== /SECUENCIA ===== -->
 
     <div class="hero-scroll-hint" id="heroScrollHint"><span></span>Desplázate para explorar</div>
   </div>
@@ -173,65 +223,8 @@
       <h2>Nuestras Marcas</h2>
       <p>Toque las marcas para conocer más sobre cada una.</p>
     </div>
-    <div class="marcas-grid">
-
-      <!-- OXE: enlace externo directo -->
-      <a href="https://oxecolombia.com/" target="_blank" rel="noopener" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Oxe.png" alt="OXE Marine"></div>
-      </a>
-
-      <a href="marcas/duramax/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Duramax.png" alt="Duramax"></div>
-      </a>
-
-      <a href="marcas/twindisc/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/twindisc.png" alt="Twin Disc"></div>
-      </a>
-
-      <a href="marcas/ancor/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Ancor.png" alt="Ancor"></div>
-      </a>
-
-      <a href="marcas/glendinning/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Glendining.png" alt="Glendinning"></div>
-      </a>
-
-      <a href="marcas/johnson/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Johnson.png" alt="SPX Flow"></div>
-      </a>
-
-      <a href="marcas/marinco/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Marinco.png" alt="Marinco"></div>
-      </a>
-
-      <a href="marcas/mcbee/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/mcbee.png" alt="McBee"></div>
-      </a>
-
-      <a href="marcas/michigan/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Michigan.png" alt="Michigan Wheel"></div>
-      </a>
-
-      <a href="marcas/newmar/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/NewMar.png" alt="NewMar"></div>
-      </a>
-
-      <a href="marcas/sam/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/SAM.png" alt="S.A. M-Tech Co"></div>
-      </a>
-
-      <a href="marcas/super-lube/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/Super-Lube.png" alt="Super Lube"></div>
-      </a>
-
-      <a href="marcas/veth/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/veth.png" alt="Veth Propulsion"></div>
-      </a>
-
-      <a href="marcas/vetus/" class="marca-card glass reveal-pop">
-        <div class="marca-logo"><img src="logos/Marcas aliadas/vetus.png" alt="Vetus"></div>
-      </a>
-
+    <div class="marcas-grid" id="marcasGrid">
+      <!-- Se llena automáticamente desde la base de datos -->
     </div>
   </div>
 </section>
@@ -244,28 +237,8 @@
       <h2>Certificaciones y Licencias</h2>
       <p>Toque los logos para validar las certificaciones y licencias.</p>
     </div>
-    <div class="cert-grid">
-
-      <a href="https://drive.google.com/file/d/1tUCS5XpRbFDOzavGLTw8GLl5oagov1KM/view" target="_blank" rel="noopener" class="cert-card glass reveal-pop">
-        <div class="cert-logo"><img src="Certificados/coface.png" alt="Coface"></div>
-      </a>
-
-      <a href="https://drive.google.com/file/d/19A8tL2YiLWpuYOBLWedSsei4WFTLczVw/view" target="_blank" rel="noopener" class="cert-card glass reveal-pop">
-        <div class="cert-logo"><img src="Certificados/par.png" alt="PAR"></div>
-      </a>
-
-      <a href="https://drive.google.com/file/d/1pvsPGOfZW7c02YCRyURUdB-tuwCg8caQ/view" target="_blank" rel="noopener" class="cert-card glass reveal-pop">
-        <div class="cert-logo"><img src="Certificados/dimar logo.png" alt="DIMAR"></div>
-      </a>
-
-      <a href="https://www.sgs.com/en/certified-clients-and-products/verify-certificate?id=5d58a8f4-052a-4752-a21d-c325ac1fa388" target="_blank" rel="noopener" class="cert-card glass reveal-pop">
-        <div class="cert-logo"><img src="Certificados/ISO-9001.png" alt="ISO 9001"></div>
-      </a>
-
-      <a href="https://www.sgs.com/en/certified-clients-and-products/verify-certificate?id=2b3816a8-7ab1-468b-b4c7-d334e0a2586e" target="_blank" rel="noopener" class="cert-card glass reveal-pop">
-        <div class="cert-logo"><img src="Certificados/ISO-14001.png" alt="ISO 14001"></div>
-      </a>
-
+    <div class="cert-grid" id="certGrid">
+      <!-- Se llena automáticamente desde la base de datos -->
     </div>
   </div>
 </section>
@@ -277,62 +250,8 @@
       <span class="kicker">Noticias TMD</span>
       <h2>¡No te pierdas ni un detalle de nuestras últimas noticias corporativas!</h2>
     </div>
-    <div class="news-scroller">
-
-      <article class="news-card glass reveal">
-        <div class="news-top">
-          <div class="news-icon">01</div>
-          <h3>Transmidiesel en OXE Marie Angelhölm, Suecia</h3>
-        </div>
-        <div class="news-body">
-          Nuestro Ingeniero Eduardo Infante ha culminado con éxito el Programa de Capacitación Técnica Avanzada de OXE Marine, especializado en motores diésel fuera de borda de las series 200 y 300.
-          <br><br>
-          Este riguroso entrenamiento se llevó a cabo en la ciudad de Angelhölm, Suecia, y refuerza nuestro compromiso con la excelencia técnica y la innovación en el sector marino. La especialización adquirida asegura que continuaremos brindando soluciones de alto nivel con el respaldo de los estándares globales de OXE Marine.
-        </div>
-      </article>
-
-      <article class="news-card glass reveal">
-        <div class="news-top">
-          <div class="news-icon">02</div>
-          <h3>XIV Congreso Internacional de Ingeniería y Mantenimiento Naval</h3>
-        </div>
-        <div class="news-body">
-          Transmidiesel presente! En el congreso hubo oportunidad de intercambiar conocimientos y experiencias entre todos los actores relacionados con la Ingeniería y Mantenimiento Naval, Transición Energética y Transformación Digital en Iberoamérica, con el objetivo de beneficiar el desarrollo marítimo regional.
-        </div>
-      </article>
-
-      <article class="news-card glass reveal">
-        <div class="news-top">
-          <div class="news-icon">03</div>
-          <h3>Transmidiesel Presente en el Congreso Sura 2024</h3>
-        </div>
-        <div class="news-body">
-          Nuestro equipo de SGI, presente en el congreso Seguros SURA 2024, este será un espacio para reconocer los riesgos y las oportunidades que trae cada una de nuestras decisiones, un espacio para sentirnos parte de la naturaleza y reafirmar nuestro legado de ser mejores ancestros.
-        </div>
-      </article>
-
-      <article class="news-card glass reveal">
-        <div class="news-top">
-          <div class="news-icon">04</div>
-          <h3>Transmidiesel en Rueda de Conexiones Triple Impacto 2024</h3>
-        </div>
-        <div class="news-body">
-          El evento de apertura rumbo a la COP16 fue un éxito, reuniendo a empresas de nuestra región para aprender sobre tendencias en sostenibilidad. Expertos compartieron sus conocimientos y experiencias, promoviendo conexiones valiosas y visibilizando casos de éxito que inspiran y transforman. Agradecemos a todos los participantes por hacer de este encuentro una experiencia enriquecedora.
-        </div>
-      </article>
-
-      <article class="news-card glass reveal">
-        <div class="news-top">
-          <div class="news-icon">05</div>
-          <h3>Encuentro de distribuidores Duramax 2024 - Cartagena Colombia</h3>
-        </div>
-        <div class="news-body">
-          Transmidiesel se enorgullece de haber sido el anfitrión de la reunión de distribuidores Duramax 2024, esta se llevó a cabo en la ciudad de Cartagena donde tuvimos el privilegio de reunirnos con distribuidores de 14 países diferentes.
-          <br><br>
-          Agradecemos a Duramax® y a los distribuidores por su valiosa retroalimentación y por contribuir a que este encuentro fuera tan beneficioso.
-        </div>
-      </article>
-
+    <div class="news-scroller" id="newsScroller">
+      <!-- Se llena automáticamente desde la base de datos -->
     </div>
   </div>
 </section>
@@ -579,6 +498,8 @@
 <div class="cursor-core" aria-hidden="true"></div>
 <div class="cursor-ring" aria-hidden="true"></div>
 
-<script src="script.js"></script>
+<script src="script.js?v=5"></script>
+<script src="public.js"></script>
+<meta name="google-site-verification" content="vdtGPZ71j7mY6fKsNS_jnPuxztI6mJrZU7pOJK8GWFo" />
 </body>
 </html>

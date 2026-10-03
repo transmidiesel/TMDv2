@@ -19,23 +19,75 @@
 
 <!-- ================= NAVBAR ================= -->
 <header class="nav nav-solid" id="navHeader">
-  <div class="wrap nav-inner">
-    <div class="logo-wrap">
-      <a href="../" class="logo-box">
-        <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
-      </a>
+  <div class="nav-shell">
+    <div class="wrap nav-inner">
+      <div class="logo-wrap">
+        <a href="../" class="logo-box">
+          <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+        </a>
+      </div>
+      <nav class="links">
+        <a href="../">Inicio</a>
+        <a href="../quienes-somos/">Quiénes Somos</a>
+        <a href="../servicios/">Servicios</a>
+        <a href="./" class="mega-trigger active" id="megaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="megaMenu">Productos <svg class="mega-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="../empleados/">Empleados</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="../contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
+        <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+      </div>
     </div>
-    <nav class="links">
-      <a href="../">Inicio</a>
-      <a href="../quienes-somos/">Quiénes Somos</a>
-      <a href="../servicios/">Servicios</a>
-      <a href="./" class="active">Productos</a>
-      <a href="../empleados/">Empleados</a>
-    </nav>
-    <div class="nav-cta">
-      <a href="../contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
-      <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+
+    <!-- MEGA MENÚ · PRODUCTOS -->
+    <div class="mega-menu" id="megaMenu" role="region" aria-label="Menú de productos">
+      <div class="mega-grid">
+        <div class="mega-feature">
+          <span class="mega-eyebrow">Catálogo</span>
+          <h4>Equipos industriales y repuestos</h4>
+          <p>Importación y comercialización de equipos con respaldo de marcas reconocidas globalmente y amplio stock.</p>
+          <a href="./" class="mega-feature-btn">Ver todo el catálogo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-8 4 4 8-11"/><path d="M14 5h6v6"/></svg></span><strong>Por sector</strong></div>
+          <a href="#naval">Naval</a>
+          <a href="#agricola">Agrícola</a>
+          <a href="#petrolero">Petrolero</a>
+          <a href="#minero">Minero</a>
+          <a href="./" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7v6c0 4 3.4 7 8 8 4.6-1 8-4 8-8V7l-8-4z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Marcas</strong></div>
+          <a href="#oxe-marine">OXE Marine</a>
+          <a href="#duramax">Duramax®</a>
+          <a href="../#marcas">Todas las marcas</a>
+          <a href="./" class="view-all">Ver todas</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></span><strong>Servicios</strong></div>
+          <a href="../servicios/#reparacion">Reparación y mantenimiento</a>
+          <a href="../servicios/#alquiler">Alquiler de equipos</a>
+          <a href="../servicios/#repuestos">Venta de equipos y repuestos</a>
+          <a href="../servicios/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-special">
+          <a href="../contactenos/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z"/></svg></span>
+            <span><strong>Cotiza tu equipo</strong><small>Te asesoramos sin compromiso</small></span>
+          </a>
+          <a href="../servicios/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
+            <span><strong>Servicio técnico</strong><small>Taller y soporte especializado</small></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -55,34 +107,17 @@
 </div>
 </section>
 
-<!-- ================= LISTADO PLACEHOLDER ================= -->
+<!-- ================= LISTADO DE PRODUCTOS ================= -->
 <section class="tint">
   <div class="wrap">
     <div class="section-head reveal">
-      <h2>Servicios disponibles</h2>
-      <p>Estamos preparando el contenido detallado. Muy pronto encontrarás aquí la información de cada uno.</p>
+      <span class="kicker">Catálogo</span>
+      <h2>Productos Destacados</h2>
+      <p>Equipos y repuestos de las mejores marcas para los sectores industrial, naval, agrícola, minero y petrolero.</p>
     </div>
-    <div class="chip-grid">
-      <div class="chip glass reveal">
-        <div class="mark">⚙</div>
-        <div class="name">Mantenimiento</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🔧</div>
-        <div class="name">Reparación</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🚢</div>
-        <div class="name">Soporte Naval</div>
-        <div class="tag">Próximamente</div>
-      </div>
-      <div class="chip glass reveal">
-        <div class="mark">🏭</div>
-        <div class="name">Asesoría Técnica</div>
-        <div class="tag">Próximamente</div>
-      </div>
+    
+    <div class="productos-grid" id="productosGrid">
+      <!-- Se llena dinámicamente desde la API -->
     </div>
   </div>
 </section>
@@ -236,5 +271,6 @@
 </div>
 
 <script src="../script.js" defer></script>
+<script src="productos.js" defer></script>
 </body>
 </html>
