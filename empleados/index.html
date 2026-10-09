@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empleados — Transmidiesel S.A.S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="../logos/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../logos/favicon_io/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../logos/favicon_io/apple-touch-icon.png">
+<link rel="manifest" href="../logos/favicon_io/site.webmanifest">
+</head>
+<body>
+
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="nav nav-solid" id="navHeader">
+  <div class="nav-shell">
+    <div class="wrap nav-inner">
+      <div class="logo-wrap">
+        <a href="../" class="logo-box">
+          <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+        </a>
+      </div>
+      <nav class="links">
+        <a href="../">Inicio</a>
+        <a href="../quienes-somos/">Quiénes Somos</a>
+        <a href="../servicios/">Servicios</a>
+        <a href="../productos/" class="mega-trigger" id="megaBtn" aria-haspopup="true" aria-expanded="false" aria-controls="megaMenu">Productos <svg class="mega-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="./" class="active">Empleados</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="../contactenos/" class="neu-btn ghost magnetic">Contáctanos</a>
+        <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span></button>
+      </div>
+    </div>
+
+    <!-- MEGA MENÚ · PRODUCTOS -->
+    <div class="mega-menu" id="megaMenu" role="region" aria-label="Menú de productos">
+      <div class="mega-grid">
+        <div class="mega-feature">
+          <span class="mega-eyebrow">Catálogo</span>
+          <h4>Equipos industriales y repuestos</h4>
+          <p>Importación y comercialización de equipos con respaldo de marcas reconocidas globalmente y amplio stock.</p>
+          <a href="../productos/" class="mega-feature-btn">Ver todo el catálogo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-8 4 4 8-11"/><path d="M14 5h6v6"/></svg></span><strong>Por sector</strong></div>
+          <a href="../productos/#naval">Naval</a>
+          <a href="../productos/#agricola">Agrícola</a>
+          <a href="../productos/#petrolero">Petrolero</a>
+          <a href="../productos/#minero">Minero</a>
+          <a href="../productos/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7v6c0 4 3.4 7 8 8 4.6-1 8-4 8-8V7l-8-4z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Marcas</strong></div>
+          <a href="../productos/#oxe-marine">OXE Marine</a>
+          <a href="../productos/#duramax">Duramax®</a>
+          <a href="../#marcas">Todas las marcas</a>
+          <a href="../productos/" class="view-all">Ver todas</a>
+        </div>
+
+        <div class="mega-cat">
+          <div class="mega-cat-title"><span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></span><strong>Servicios</strong></div>
+          <a href="../servicios/#reparacion">Reparación y mantenimiento</a>
+          <a href="../servicios/#alquiler">Alquiler de equipos</a>
+          <a href="../servicios/#repuestos">Venta de equipos y repuestos</a>
+          <a href="../servicios/" class="view-all">Ver todos</a>
+        </div>
+
+        <div class="mega-special">
+          <a href="../contactenos/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z"/></svg></span>
+            <span><strong>Cotiza tu equipo</strong><small>Te asesoramos sin compromiso</small></span>
+          </a>
+          <a href="../servicios/" class="special-card">
+            <span class="mega-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></span>
+            <span><strong>Servicio técnico</strong><small>Taller y soporte especializado</small></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="page-content" id="pageContent">
+
+<div class="bg-mesh"></div>
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ================= HERO ================= -->
+<section class="page-hero" style="padding-top:120px;padding-bottom:20px;">
+  <div class="wrap">
+    <span class="kicker">Recursos Humanos</span>
+    <h1>Empleados</h1>
+    <p>Espacio informativo para nuestro equipo. Ingresa tu número de cédula para consultar el reglamento interno de trabajo.</p>
+  </div>
+</section>
+
+<!-- ================= VALIDACIÓN ================= -->
+<section class="tint" style="padding-top:28px;padding-bottom:28px;">
+  <div class="wrap">
+    <div class="empleado-acceso-grid">
+
+      <!-- Columna Izquierda: título, descripción e información -->
+      <div class="empleado-acceso-info reveal">
+        <span class="kicker">Acceso</span>
+        <h2>Consulta el Reglamento Interno</h2>
+        <p>Ingresa tu número de cédula. Si estás registrado en nuestra base de datos, podrás abrir el reglamento interno de trabajo en formato PDF.</p>
+
+        <ul class="empleado-acceso-list">
+          <li>
+            <span class="empleado-check">✓</span>
+            Acceso restringido a empleados registrados.
+          </li>
+          <li>
+            <span class="empleado-check">✓</span>
+            Tu consulta queda registrada con fecha y hora.
+          </li>
+          <li>
+            <span class="empleado-check">✓</span>
+            Si no estás registrado, contacta a Recursos Humanos.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna Derecha: formulario -->
+      <div class="empleado-acceso-form glass reveal">
+        <h3>Validar identidad</h3>
+        <p class="empleado-form-sub">Solo necesitas tu número de cédula.</p>
+
+        <form id="formEmpleado" autocomplete="off" novalidate>
+          <div class="form-group" style="margin-bottom:18px;">
+            <label for="cedula" class="form-label">Número de cédula <span class="form-req">*</span></label>
+            <input type="text" id="cedula" name="cedula" class="form-input" placeholder="Ej. 1234567890" inputmode="numeric" required>
+          </div>
+          <div class="form-actions" style="justify-content:center;margin-top:0;">
+            <button type="submit" class="neu-btn primary magnetic" id="btnValidar" style="width:100%;">
+              <span id="btnValidarText">Validar y abrir reglamento</span>
+            </button>
+          </div>
+          <div id="formEmpleadoStatus" class="form-status" style="display:none;" role="alert"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section id="contacto" style="padding-top:28px;padding-bottom:48px;">
+  <div class="wrap">
+    <div class="cta-band glass reveal" style="padding:36px 30px;">
+      <h2>¿Necesitas más información?</h2>
+      <p>Escríbenos y con gusto te asesoramos.</p>
+      <a href="../contactenos/" class="neu-btn primary magnetic">Ir a Contáctenos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+
+    <div class="footer-grid">
+      <div>
+        <div class="logo-wrap" style="margin-bottom:16px;">
+          <a href="../" class="logo-box">
+            <img src="../logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
+          </a>
+        </div>
+        <p style="color:var(--metal-light);font-size:14px;max-width:320px;">
+          Líder en importación y comercialización de equipos industriales y servicios de mantenimiento, con respaldo de marcas reconocidas globalmente.
+        </p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="../">Inicio</a></li>
+          <li><a href="../quienes-somos/">Quiénes Somos</a></li>
+          <li><a href="../servicios/">Servicios</a></li>
+          <li><a href="../productos/">Productos</a></li>
+          <li><a href="./">Empleados</a></li>
+          <li><a href="../contactenos/">Contáctenos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sede Cali</h4>
+        <ul>
+          <li>Carrera 1 # 50N-89</li>
+          <li>Barrio Evaristo García</li>
+          <li><a href="tel:+573168775212">+57 316 877 5212</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Agencia Cartagena</h4>
+        <ul>
+          <li>Diagonal 22 # 37 – 54</li>
+          <li>Av Crisanto Luque — Barrio El Bosque</li>
+          <li><a href="tel:+573168775207">+57 316 877 5207</a></li>
+        </ul>
+      </div>
+    </div>
+
+        <!-- Fila de certificados — se llena dinámicamente desde la API -->
+    <div class="footer-certs-strip">
+      <div class="footer-certs" id="footerCerts">
+        <!-- Se llena dinámicamente desde api/certificaciones.php -->
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Transmidiesel S.A.S. Todos los derechos reservados.</span>
+      <div class="social-row" aria-label="Redes sociales Transmidiesel">
+        <a href="https://www.facebook.com/Transmidiesel" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6V14h2.8v8h3.1z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/transmidiesel/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/transmidiesel/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@transmidiesel" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 1.9 1.4 3.2 3.3 3.5v2.4c-1.2.1-2.3-.2-3.3-.9v6.4c0 3.3-2.6 5.6-5.6 5.6S5.3 17.7 5.3 14.6c0-2.9 2.2-5.3 5.2-5.3.3 0 .5 0 .8.1v2.5c-.3-.1-.5-.1-.8-.1-1.5 0-2.7 1.2-2.7 2.8 0 1.6 1.2 2.7 2.7 2.7 1.5 0 2.7-1.1 2.7-2.7V3h3.3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+<!-- ↑ cierra .page-content -->
+
+<!-- ================= WHATSAPP MODULE ================= -->
+<div class="wa-float" id="waFloat">
+  <div class="wa-panel glass" id="waPanel">
+    <div class="wa-head">
+      <div class="wa-logo">
+        <img src="../logos/favicon_io/android-chrome-512x512.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="logo-fallback" style="display:none;font-size:8px;">LOGO</div>
+      </div>
+      <div>
+        <div class="wa-title">TMD - Línea Nacional</div>
+        <div class="wa-sub">Hola! Somos Transmidiesel S.A.S.</div>
+      </div>
+    </div>
+    <div class="wa-body">
+      <div class="wa-bubble"><strong>Hola! somos Transmidiesel S.A.S.</strong><br>Es un placer asesorarte; ¿cómo podemos ayudarte?</div>
+      <a href="https://wa.me/573168775212" target="_blank" class="neu-btn primary magnetic" style="width:100%;justify-content:center;">Iniciar conversación</a>
+    </div>
+  </div>
+
+  <button class="back-top magnetic" id="backTop" aria-label="Volver arriba" title="Volver arriba">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5"/>
+      <path d="M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <button class="wa-fab magnetic" id="waFab" aria-label="Abrir WhatsApp">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.6.8 5 2.1 7L3 29l6.7-2.3c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.6 12.7-12.5S23 3 16 3z" fill="#ffffff"/><path d="M12.1 10.4c-.3-.7-.6-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.3.4-1.3 1.2-1.3 3s1.3 3.5 1.5 3.7c.2.3 2.5 4 6.2 5.5 3 1.2 3.6 1 4.3.9.7-.1 2.1-.8 2.4-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.7-.5s-2.1-1.1-2.4-1.2c-.3-.1-.6-.2-.8.2-.2.4-.9 1.2-1.1 1.4-.2.2-.4.3-.7.1-.4-.2-1.5-.6-2.8-1.8-1-1-1.7-2.1-1.9-2.5-.2-.4 0-.6.2-.8l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6 0-.2-.7-1.9-1-2.7z" fill="var(--accent)"/></svg>
+  </button>
+
+  <div class="wa-socials" id="waSocials" aria-label="Redes sociales Transmidiesel">
+    <a href="https://www.facebook.com/Transmidiesel" target="_blank" rel="noopener" class="wa-social-btn" aria-label="Facebook" title="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.3-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6V14h2.8v8h3.1z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/transmidiesel/" target="_blank" rel="noopener" class="wa-social-btn" aria-label="Instagram" title="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@transmidiesel" target="_blank" rel="noopener" class="wa-social-btn" aria-label="TikTok" title="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 1.9 1.4 3.2 3.3 3.5v2.4c-1.2.1-2.3-.2-3.3-.9v6.4c0 3.3-2.6 5.6-5.6 5.6S5.3 17.7 5.3 14.6c0-2.9 2.2-5.3 5.2-5.3.3 0 .5 0 .8.1v2.5c-.3-.1-.5-.1-.8-.1-1.5 0-2.7 1.2-2.7 2.8 0 1.6 1.2 2.7 2.7 2.7 1.5 0 2.7-1.1 2.7-2.7V3h3.3z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/company/transmidiesel/" target="_blank" rel="noopener" class="wa-social-btn" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- ================= MODAL DE AGRADECIMIENTO ================= -->
+<div class="empleado-modal-overlay" id="empleadoModal">
+  <div class="empleado-modal glass" role="dialog" aria-modal="true" aria-labelledby="empleadoModalTitle">
+    <div class="empleado-modal-check" aria-hidden="true">
+      <svg viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="24" stroke="currentColor" stroke-width="2"/>
+        <path d="M14 27l8 8 16-16" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 id="empleadoModalTitle">¡Bienvenido!</h3>
+    <p id="empleadoModalMsg">Gracias por consultar el reglamento.</p>
+    <div class="empleado-modal-actions">
+      <a href="#" id="empleadoModalLink" target="_blank" rel="noopener" class="neu-btn primary magnetic">Abrir reglamento</a>
+      <button type="button" id="empleadoModalClose" class="neu-btn magnetic">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="../script.js?v=3" defer></script>
+<script src="../footer-certs.js" defer></script>
+
+<!-- ================= SCRIPT DE VALIDACIÓN DE EMPLEADO ================= -->
+<script>
+(function(){
+
+  // =====================================================================
+  // CONFIGURACIÓN: pega aquí la URL de tu Web App de Google Apps Script
+  // Ejemplo: "https://script.google.com/macros/s/AKfycb.../exec"
+  // =====================================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzScfIYP6Cbrm6PndlmonpyBE0jWCJXNDI2w_D99B9Bba0JtS_L3PKWxd5Qxt38r-i5gw/exec";
+
+  const form     = document.getElementById('formEmpleado');
+  const input    = document.getElementById('cedula');
+  const btn      = document.getElementById('btnValidar');
+  const btnText  = document.getElementById('btnValidarText');
+  const statusEl = document.getElementById('formEmpleadoStatus');
+
+  const modal      = document.getElementById('empleadoModal');
+  const modalMsg   = document.getElementById('empleadoModalMsg');
+  const modalLink  = document.getElementById('empleadoModalLink');
+  const modalClose = document.getElementById('empleadoModalClose');
+
+  // ---------- Obtener IP pública del usuario con un servicio externo ----------
+  async function obtenerIP() {
+    try {
+      const r = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+      const d = await r.json();
+      return d.ip || 'No disponible';
+    } catch (e) {
+      return 'No disponible';
+    }
+  }
+
+  // ---------- Mostrar estado ----------
+  function setStatus(type, html) {
+    statusEl.className = 'form-status ' + type;
+    const icon = type === 'success' ? '✅' : '⚠️';
+    statusEl.innerHTML = '<span class="ic-status">' + icon + '</span><div>' + html + '</div>';
+    statusEl.style.display = 'flex';
+  }
+  function clearStatus() {
+    statusEl.style.display = 'none';
+    statusEl.innerHTML = '';
+  }
+
+  // ---------- Abrir modal ----------
+  function abrirModal(nombre, apellido, urlReglamento) {
+    modalMsg.innerHTML = 'Hola <strong>' + nombre + ' ' + apellido + '</strong>, gracias por consultar el reglamento interno de trabajo.';
+    modalLink.href = urlReglamento || '#';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  modalClose.addEventListener('click', cerrarModal);
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) cerrarModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) cerrarModal();
+  });
+
+  // ---------- Envío del formulario ----------
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const cedula = (input.value || '').replace(/\D/g, '');
+
+    if (!cedula) {
+      setStatus('error', 'Por favor ingresa tu número de cédula.');
+      return;
+    }
+
+    // Estado cargando
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btnText.textContent = 'Validando...';
+    clearStatus();
+
+    try {
+      const ip = await obtenerIP();
+      const userAgent = navigator.userAgent || '';
+
+      const payload = {
+        cedula: cedula,
+        ip: ip,
+        userAgent: userAgent
+      };
+
+      // Una sola llamada al Apps Script: guarda el registro Y devuelve el JSON.
+      // (Antes había dos fetch y por eso se guardaba doble.)
+      let data = null;
+      try {
+        const r2 = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        data = await r2.json();
+      } catch (e2) {
+        data = null;
+      }
+
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btnText.textContent = 'Validar y abrir reglamento';
+
+      if (data && data.status === 'ok') {
+        abrirModal(data.nombre, data.apellido, data.reglamento);
+        setStatus('success', 'Cédula verificada. Abriendo reglamento…');
+        input.value = '';
+      } else if (data && data.status === 'error') {
+        setStatus('error', data.message || 'La cédula no está registrada.');
+      } else {
+        // Si no pudimos leer la respuesta, no podemos asegurar si fue ok o error
+        setStatus('error', 'No se pudo validar la cédula. Inténtalo de nuevo.');
+      }
+
+    } catch (err) {
+      console.error('Error validando cédula:', err);
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btnText.textContent = 'Validar y abrir reglamento';
+      setStatus('error', 'Hubo un problema de conexión. Inténtalo de nuevo más tarde.');
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

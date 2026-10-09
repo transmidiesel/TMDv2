@@ -1,0 +1,233 @@
+============================================================================
+INSTRUCCIONES DE INSTALACIÓN — GOOGLE APPS SCRIPT (TRANSMIDIESEL S.A.S)
+============================================================================
+
+Sigue estos sencillos pasos para conectar tu formulario con Google Sheets y tu correo:
+
+PASO 1: CREAR LA HOJA DE GOOGLE SHEETS
+1. Entra a https://sheets.google.com y crea una hoja de cálculo nueva en blanco.
+2. Nómbrala como quieras (por ejemplo: "Transmidiesel - Contactos Web").
+
+PASO 2: ABRIR EL EDITOR DE APPS SCRIPT
+1. En el menú superior de tu hoja de cálculo, haz clic en:
+   Extensiones -> Apps Script
+2. Se abrirá una pestaña con un archivo llamado "Código.gs".
+3. Borra todo lo que esté allí y PEGA EL CÓDIGO que está debajo de esta línea.
+
+PASO 3: CONFIGURAR TUS CORREOS DE DESTINO
+1. En las primeras líneas del código verás:
+   const CORREOS_NOTIFICACION = [
+     "marketing.transmidiesel@gmail.com"
+   ];
+2. Reemplaza "tu-correo@empresa.com" con el correo o correos donde deseas recibir las notificaciones.
+
+PASO 4: PUBLICAR COMO APLICACIÓN WEB (WEB APP)
+1. En la esquina superior derecha de Apps Script, haz clic en el botón azul "Implementar" (o "Deploy") -> "Nueva implementación".
+2. En el engranaje (⚙️) "Seleccionar tipo", elige: "Aplicación web".
+3. Configura exactamente esto:
+   - Descripción: Formulario de contacto web
+   - Ejecutar como: "Yo" (tu cuenta de Google)
+   - Quién tiene acceso: "Cualquier usuario" (o "Anyone")  <--- ¡MUY IMPORTANTE!
+4. Haz clic en "Implementar".
+5. Si Google te pide permisos, autorízalos:
+   - Selecciona tu cuenta -> Opciones avanzadas -> Ir a (no seguro) -> Permitir.
+6. Al finalizar, Google te dará una "URL de la aplicación web" que termina en "/exec".
+7. Copia esa URL y pégala en el archivo Contactenos/index.html en la variable:
+   const APPS_SCRIPT_URL = "PEGA_TU_URL_AQUÍ";
+
+¡Y listo! Al enviar el primer mensaje desde la página web, el script creará automáticamente
+las columnas con los colores corporativos de Transmidiesel, registrará los datos y te enviará un correo.
+
+============================================================================
+CÓDIGO COMPLETO PARA COPIAR Y PEGAR:
+============================================================================
+
+/**
+ * TRANSMIDIESEL S.A.S — SCRIPT DE CONEXIÓN DE FORMULARIO DE CONTACTO
+ */
+
+// 1. CONFIGURACIÓN: CORREOS DE NOTIFICACIÓN
+const CORREOS_NOTIFICACION = [
+  "tu-correo@empresa.com",     // <-- REEMPLAZA CON TU CORREO PRINCIPAL
+  // "comercial@transmidiesel.com"
+];
+
+// Nombre de la pestaña donde se guardarán los contactos
+const NOMBRE_HOJA = "Contactos Web";
+
+/**
+ * Función que crea y formatea automáticamente las columnas en Google Sheets
+ */
+function inicializarHoja() {
+  const libro = SpreadsheetApp.getActiveSpreadsheet();
+  let hoja = libro.getSheetByName(NOMBRE_HOJA);
+  
+  if (!hoja) {
+    hoja = libro.insertSheet(NOMBRE_HOJA);
+  }
+  
+  if (hoja.getLastRow() === 0 || hoja.getRange(1, 1).getValue() === "") {
+    const encabezados = [
+      "Fecha y Hora",
+      "Nombre",
+      "Correo Electrónico",
+      "Teléfono",
+      "Asunto / Consulta",
+      "Mensaje",
+      "Estado"
+    ];
+    
+    const filaEncabezados = hoja.getRange(1, 1, 1, encabezados.length);
+    filaEncabezados.setValues([encabezados]);
+    
+    filaEncabezados
+      .setBackground("#0F3E68")
+      .setFontColor("#FFFFFF")
+      .setFontWeight("bold")
+      .setFontFamily("Inter")
+      .setFontSize(11)
+      .setHorizontalAlignment("center")
+      .setVerticalAlignment("middle");
+      
+    hoja.setRowHeight(1, 38);
+    hoja.setFrozenRows(1);
+    
+    hoja.setColumnWidth(1, 160);
+    hoja.setColumnWidth(2, 200);
+    hoja.setColumnWidth(3, 230);
+    hoja.setColumnWidth(4, 150);
+    hoja.setColumnWidth(5, 220);
+    hoja.setColumnWidth(6, 400);
+    hoja.setColumnWidth(7, 120);
+    
+    Logger.log("✅ Hoja '" + NOMBRE_HOJA + "' inicializada con éxito.");
+  }
+  
+  return hoja;
+}
+
+/**
+ * Función principal que recibe las peticiones POST desde la página web
+ */
+function doPost(e) {
+  try {
+    const hoja = inicializarHoja();
+    
+    let datos = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        datos = JSON.parse(e.postData.contents);
+      } catch (errJson) {
+        datos = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
+      datos = e.parameter;
+    }
+    
+    const nombre = (datos.nombre || "No especificado").trim();
+    const correo = (datos.correo || "No especificado").trim();
+    const telefono = (datos.telefono || "No especificado").trim();
+    const asunto = (datos.asunto || "Consulta general").trim();
+    const mensaje = (datos.mensaje || "").trim();
+    
+    const fechaHora = Utilities.formatDate(new Date(), "America/Bogota", "dd/MM/yyyy HH:mm:ss");
+    
+    hoja.appendRow([
+      fechaHora,
+      nombre,
+      correo,
+      telefono,
+      asunto,
+      mensaje,
+      "Nuevo"
+    ]);
+    
+    const ultimaFila = hoja.getLastRow();
+    hoja.getRange(ultimaFila, 1, 1, 7)
+      .setFontFamily("Inter")
+      .setFontSize(10)
+      .setVerticalAlignment("middle");
+      
+    hoja.getRange(ultimaFila, 1).setHorizontalAlignment("center");
+    hoja.getRange(ultimaFila, 7).setHorizontalAlignment("center").setBackground("#EBF5FB").setFontColor("#0F3E68").setFontWeight("bold");
+    
+    const correosValidos = CORREOS_NOTIFICACION.filter(function(c) {
+      return c && c.indexOf("@") !== -1 && c.indexOf("tu-correo") === -1;
+    });
+    
+    if (correosValidos.length > 0) {
+      enviarCorreoNotificacion(correosValidos, {
+        fechaHora: fechaHora,
+        nombre: nombre,
+        correo: correo,
+        telefono: telefono,
+        asunto: asunto,
+        mensaje: mensaje
+      });
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      message: "¡Mensaje recibido y registrado correctamente!"
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    Logger.log("Error al procesar contacto: " + error.toString());
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * Envía la notificación por correo electrónico con diseño HTML
+ */
+function enviarCorreoNotificacion(destinatarios, datos) {
+  const asuntoEmail = "📥 Nuevo Contacto Web: " + datos.asunto + " — " + datos.nombre;
+  
+  const cuerpoHtml = 
+    "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e1e8ed;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.06);'>" +
+      "<div style='background:#0F3E68;color:#ffffff;padding:24px 30px;'>" +
+        "<h2 style='margin:0;font-size:22px;'>Transmidiesel S.A.S</h2>" +
+        "<p style='margin:6px 0 0;font-size:14px;opacity:0.85;'>Nueva solicitud de contacto recibida desde la página web</p>" +
+      "</div>" +
+      "<div style='padding:28px 30px;background:#ffffff;'>" +
+        "<table style='width:100%;border-collapse:collapse;'>" +
+          "<tr><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#5a5f66;font-size:13px;width:130px;'><strong>Fecha y hora:</strong></td><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#1a1a1a;font-size:14px;'>" + datos.fechaHora + "</td></tr>" +
+          "<tr><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#5a5f66;font-size:13px;'><strong>Nombre:</strong></td><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#1a1a1a;font-size:14px;font-weight:bold;'>" + datos.nombre + "</td></tr>" +
+          "<tr><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#5a5f66;font-size:13px;'><strong>Correo:</strong></td><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#0F3E68;font-size:14px;'><a href='mailto:" + datos.correo + "' style='color:#0F3E68;text-decoration:none;'><strong>" + datos.correo + "</strong></a></td></tr>" +
+          "<tr><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#5a5f66;font-size:13px;'><strong>Teléfono:</strong></td><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#1a1a1a;font-size:14px;'><a href='tel:" + datos.telefono + "' style='color:#1a1a1a;text-decoration:none;'>" + datos.telefono + "</a></td></tr>" +
+          "<tr><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#5a5f66;font-size:13px;'><strong>Asunto:</strong></td><td style='padding:10px 0;border-bottom:1px solid #f0f3f6;color:#1a1a1a;font-size:14px;font-weight:bold;'>" + datos.asunto + "</td></tr>" +
+        "</table>" +
+        "<div style='margin-top:20px;padding:16px;background:#f7f9fb;border-left:4px solid #0F3E68;border-radius:4px;'>" +
+          "<strong style='color:#0F3E68;font-size:13px;display:block;margin-bottom:6px;'>Mensaje del cliente:</strong>" +
+          "<p style='margin:0;color:#333333;font-size:14.5px;line-height:1.6;white-space:pre-wrap;'>" + datos.mensaje + "</p>" +
+        "</div>" +
+        "<div style='margin-top:26px;text-align:center;'>" +
+          "<a href='mailto:" + datos.correo + "?subject=Respuesta a tu consulta en Transmidiesel S.A.S' style='display:inline-block;padding:12px 26px;background:#0F3E68;color:#ffffff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:bold;'>Responder al cliente</a>" +
+        "</div>" +
+      "</div>" +
+      "<div style='background:#f4f6f8;padding:14px;text-align:center;font-size:12px;color:#788590;border-top:1px solid #e1e8ed;'>" +
+        "Transmidiesel S.A.S · Sistema automatizado de atención web" +
+      "</div>" +
+    "</div>";
+    
+  MailApp.sendEmail({
+    to: destinatarios.join(","),
+    subject: asuntoEmail,
+    htmlBody: cuerpoHtml,
+    replyTo: (datos.correo && datos.correo.indexOf("@") !== -1) ? datos.correo : undefined
+  });
+}
+
+/**
+ * Responde a peticiones GET para comprobar estado
+ */
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "online",
+    message: "El servicio de formulario web de Transmidiesel S.A.S está activo y listo."
+  })).setMimeType(ContentService.MimeType.JSON);
+}

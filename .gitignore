@@ -1,0 +1,33 @@
+# =========================================================
+# Archivos que NUNCA se suben a Git
+# =========================================================
+
+# Variables de entorno (contiene API keys)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Uploads (imágenes subidas por usuarios)
+uploads/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configuraciones locales de editores
+.vscode/
+.idea/
+*.swp
+
+# Backups
+*.bak
+*.sql
+backup_*
+# =========================================================
+# Videos pesados (no subir a Git)
+# =========================================================
+barco a1.mp4
