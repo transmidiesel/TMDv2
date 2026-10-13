@@ -55,42 +55,42 @@ require __DIR__ . '/partials/navbar.php';
 
     <div class="hero-sectors-track" id="heroSectorsTrack">
       <figure class="hero-sector-img" data-side="left">
-        <img src="img-hero/Naval-hero.jpg" alt="Sector Naval" loading="lazy" decoding="async">
+        <img src="img-hero/Naval-hero.webp" alt="Sector Naval" loading="lazy" decoding="async">
         <figcaption class="hero-sector-caption">
           <span class="hero-sector-caption-kicker">Sector</span>
           <span class="hero-sector-caption-name">Naval</span>
         </figcaption>
       </figure>
       <figure class="hero-sector-img" data-side="right">
-        <img src="img-hero/Agrícola-hero.jpg" alt="Sector Agrícola" loading="lazy" decoding="async">
+        <img src="img-hero/Agrícola-hero.webp" alt="Sector Agrícola" loading="lazy" decoding="async">
         <figcaption class="hero-sector-caption">
           <span class="hero-sector-caption-kicker">Sector</span>
           <span class="hero-sector-caption-name">Agrícola</span>
         </figcaption>
       </figure>
       <figure class="hero-sector-img" data-side="left">
-        <img src="img-hero/Petrolero-hero.jpg" alt="Sector Petrolero" loading="lazy" decoding="async">
+        <img src="img-hero/Petrolero-hero.webp" alt="Sector Petrolero" loading="lazy" decoding="async">
         <figcaption class="hero-sector-caption">
           <span class="hero-sector-caption-kicker">Sector</span>
           <span class="hero-sector-caption-name">Petrolero</span>
         </figcaption>
       </figure>
       <figure class="hero-sector-img" data-side="right">
-        <img src="img-hero/Minero-hero.jpg" alt="Sector Minero" loading="lazy" decoding="async">
+        <img src="img-hero/Minero-hero.webp" alt="Sector Minero" loading="lazy" decoding="async">
         <figcaption class="hero-sector-caption">
           <span class="hero-sector-caption-kicker">Sector</span>
           <span class="hero-sector-caption-name">Minero</span>
         </figcaption>
       </figure>
       <figure class="hero-sector-img" data-side="left">
-        <img src="img-hero/Industrial-hero.jpg" alt="Sector Industrial" loading="lazy" decoding="async">
+        <img src="img-hero/Industrial-hero.webp" alt="Sector Industrial" loading="lazy" decoding="async">
         <figcaption class="hero-sector-caption">
           <span class="hero-sector-caption-kicker">Sector</span>
           <span class="hero-sector-caption-name">Industrial</span>
         </figcaption>
       </figure>
       <figure class="hero-sector-img hero-sector-img--final" data-side="center">
-        <img src="img-hero/banner-final.jpg" alt="Transmidiesel" loading="lazy" decoding="async">
+        <img src="img-hero/banner-final.webp" alt="Transmidiesel" loading="lazy" decoding="async">
       </figure>
     </div>
 
@@ -245,7 +245,7 @@ require __DIR__ . '/partials/navbar.php';
     <div class="cta-band glass reveal">
       <h2>Es un placer asesorarte, ¿cómo podemos ayudarte?</h2>
       <p>Hola! Somos Transmidiesel S.A.S. — TMD Línea Nacional. Escríbenos y con gusto te atendemos.</p>
-      <a href="tel:+573168775212" class="neu-btn primary magnetic">Llamar Línea Nacional</a>
+      <a href="https://api.whatsapp.com/send/?phone=573168775212&text&type=phone_number&app_absent=0" class="neu-btn primary magnetic">Llamar Línea Nacional</a>
     </div>
   </div>
 </section>
