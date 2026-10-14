@@ -24,11 +24,6 @@ try {
         $p['precio_usd'] = (float)$p['precio_usd'];
         $p['orden']      = (int)$p['orden'];
 
-        // Normalizar la ruta de la imagen: siempre dejarla como ruta relativa a la raíz
-        //   "uploads/productos/xxx.jpg"    → "uploads/productos/xxx.jpg"
-        //   "productos/box-cooler.png"     → "productos/box-cooler.png"
-        //   "../uploads/productos/xxx.jpg" → "uploads/productos/xxx.jpg"
-        //   "http://..."                    → se deja igual
         if (!empty($p['imagen'])) {
             $img = $p['imagen'];
             if (!preg_match('#^https?://#i', $img)) {
@@ -41,28 +36,30 @@ try {
     unset($p);
 
     // ---------- 2) Tasas de cambio desde configuracion ----------
-    $stmt = $pdo->query("
-        SELECT clave, valor FROM configuracion
-        WHERE clave IN ('trm_cop','trm_eur','trm_mxn','trm_actualizada')
-    ");
+    // Se leen TODAS las filas y se filtran en PHP para tolerar
+    // mayúsculas/minúsculas (trm_cop, TRM_COP, TrM_CoP, etc.)
+    $stmt = $pdo->query("SELECT clave, valor FROM configuracion");
     $tasas = [];
     $fechaActualizacion = null;
 
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        if ($row['clave'] === 'trm_actualizada') {
+        $clave = strtolower(trim($row['clave']));
+
+        if ($clave === 'trm_actualizada') {
             $fechaActualizacion = $row['valor'];
-        } else {
-            $moneda = strtoupper(str_replace('trm_', '', $row['clave']));
+            continue;
+        }
+
+        if (strpos($clave, 'trm_') === 0) {
+            $moneda = strtoupper(substr($clave, 4));   // "trm_cop" -> "COP"
             $tasas[$moneda] = (float)$row['valor'];
         }
     }
 
-    // ---------- 3) Calcular base_url dinámica (funciona en local y en producción) ----------
-    // Ejemplo local:     /transmidiesel/api/productos.php  → base_url = "/transmidiesel/"
-    // Ejemplo prod:      /api/productos.php                 → base_url = "/"
+    // ---------- 3) base_url dinámica ----------
     $scriptPath = $_SERVER['SCRIPT_NAME'] ?? '/api/productos.php';
-    $apiFolder  = dirname($scriptPath);                   // "/transmidiesel/api"  o  "/api"
-    $baseUrl    = rtrim(dirname($apiFolder), '/') . '/';  // "/transmidiesel/"      o  "/"
+    $apiFolder  = dirname($scriptPath);
+    $baseUrl    = rtrim(dirname($apiFolder), '/') . '/';
 
     // ---------- 4) Respuesta ----------
     echo json_encode([
@@ -73,7 +70,10 @@ try {
         'base_url'          => $baseUrl
     ], JSON_UNESCAPED_UNICODE);
 
-} catch (PDOException $e) {
+} catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Error al cargar productos']);
+    echo json_encode([
+        'error'   => 'Error al cargar productos',
+        'detalle' => $e->getMessage()
+    ]);
 }

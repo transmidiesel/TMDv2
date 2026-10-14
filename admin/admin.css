@@ -524,3 +524,119 @@ table.admin-table tr:hover td { background: #fafbfd; }
   padding-top: 24px;
   border-top: 1px solid var(--border);
 }
+/* =========================================================
+   TABLA DE PREGUNTAS — Ajustes de ancho y responsive
+   ========================================================= */
+
+/* Reducir padding general para que quepa más info */
+.admin-table th,
+.admin-table td {
+  padding: 12px 14px;
+}
+
+/* En pantallas medianas, ocultar columnas menos críticas */
+@media (max-width: 1200px) {
+  .admin-table .col-rango,
+  .admin-table .col-respuestas {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-table .col-obligatoria {
+    display: none;
+  }
+}
+
+/* Permitir scroll horizontal si hace falta */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* El texto de la pregunta puede partirse en varias líneas */
+.td-title {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-height: 1.4;
+  max-width: none;
+}
+/* =========================================================
+   FILTROS DE ENCUESTAS — Fix de espaciado y responsive
+   ========================================================= */
+
+.encuesta-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: #f9fafc;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.encuesta-filtros a {
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: all .25s var(--ease);
+}
+
+.encuesta-filtros a:hover {
+  background: rgba(47,111,168,0.06);
+  color: var(--accent);
+}
+
+.encuesta-filtros a.active {
+  background: linear-gradient(180deg, var(--accent-bright), var(--accent));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(15,62,104,0.25);
+}
+
+.encuesta-filtros a .count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(15,62,104,0.10);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.encuesta-filtros a.active .count {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+/* En móvil, que los filtros se acomoden en columna */
+@media (max-width: 640px) {
+  .encuesta-filtros {
+    width: 100%;
+    flex-direction: column;
+    padding: 8px;
+    gap: 4px;
+  }
+  .encuesta-filtros a {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 14px;
+  }
+}

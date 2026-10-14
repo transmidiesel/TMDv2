@@ -1,10 +1,12 @@
 <?php
 // =========================================================
 // partials/footer.php
-// Footer común a todas las páginas.
-// Los teléfonos se leen desde `configuracion`.
-// Los certificados se cargan vía footer-certs.js.
-// Requiere: $base (ruta relativa a la raíz del proyecto)
+// Footer unificado con logo dinámico desde la DB.
+//
+// Flags opcionales (declarar ANTES del require):
+//   $footerShowCerts    → true/false. Por defecto true.
+//   $footerCertsDynamic → true/false. true = desde API vía footer-certs.js,
+//                          false = no cargar JS de certificados.
 // =========================================================
 
 require_once __DIR__ . '/../includes/config_loader.php';
@@ -12,6 +14,10 @@ require_once __DIR__ . '/../includes/config_loader.php';
 $base              = $base ?? './';
 $telefonoNacional  = cfg('telefono_nacional', '+57 316 877 5212');
 $telefonoCartagena = '+57 316 877 5207';
+$logoFooter        = cfg('logo_scrolled', cfg('logo_principal', 'logos/Logo2.webp'));
+
+$footerShowCerts    = $footerShowCerts    ?? true;
+$footerCertsDynamic = $footerCertsDynamic ?? true;
 ?>
 <!-- ================= FOOTER ================= -->
 <footer>
@@ -19,11 +25,9 @@ $telefonoCartagena = '+57 316 877 5207';
 
     <div class="footer-grid">
       <div>
-        <div class="logo-wrap" style="margin-bottom:16px;">
-          <div class="logo-box">
-            <img src="<?= $base ?>logos/Logo.png" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
-          </div>
+        <div class="footer-logo">
+          <img src="<?= $base . htmlspecialchars($logoFooter) ?>" alt="Transmidiesel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="logo-fallback" style="display:none;">LOGO<br>.PNG</div>
         </div>
         <p style="color:var(--metal-light);font-size:14px;max-width:320px;">
           Líder en importación y comercialización de equipos industriales y servicios de mantenimiento, con respaldo de marcas reconocidas globalmente.
@@ -45,7 +49,7 @@ $telefonoCartagena = '+57 316 877 5207';
         <ul>
           <li>Carrera 1 # 50N-89</li>
           <li>Barrio Evaristo García</li>
-          <li><a href="tel:+57<?= preg_replace('/\D/', '', $telefonoNacional) ?>"><?= htmlspecialchars($telefonoNacional) ?></a></li>
+          <li><a href="tel:+<?= preg_replace('/\D/', '', $telefonoNacional) ?>"><?= htmlspecialchars($telefonoNacional) ?></a></li>
         </ul>
       </div>
       <div>
@@ -53,17 +57,18 @@ $telefonoCartagena = '+57 316 877 5207';
         <ul>
           <li>Diagonal 22 # 37 – 54</li>
           <li>Av Crisanto Luque — Barrio El Bosque</li>
-          <li><a href="tel:+57<?= preg_replace('/\D/', '', $telefonoCartagena) ?>"><?= htmlspecialchars($telefonoCartagena) ?></a></li>
+          <li><a href="tel:+<?= preg_replace('/\D/', '', $telefonoCartagena) ?>"><?= htmlspecialchars($telefonoCartagena) ?></a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Fila de certificados — se llena dinámicamente desde footer-certs.js -->
+    <?php if ($footerShowCerts): ?>
     <div class="footer-certs-strip">
       <div class="footer-certs" id="footerCerts">
-        <!-- Se llena dinámicamente desde api/certificaciones.php -->
+        <!-- Se llena dinámicamente desde footer-certs.js -->
       </div>
     </div>
+    <?php endif; ?>
 
     <div class="footer-bottom">
       <span>© 2026 Transmidiesel S.A.S. Todos los derechos reservados.</span>

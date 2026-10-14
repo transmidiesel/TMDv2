@@ -157,6 +157,9 @@ require __DIR__ . '/partials/navbar.php';
   </div>
 </section>
 
+<!-- ================= ENCUESTAS DE SATISFACCIÓN ================= -->
+<?php require __DIR__ . '/partials/carrusel-encuestas.php'; ?>
+
 <!-- ================= REDES SOCIALES ================= -->
 <section id="instagram">
   <div class="wrap">
@@ -206,6 +209,7 @@ require __DIR__ . '/partials/navbar.php';
           <span class="sede-kicker">Agencia Caribe — Cartagena</span>
           <h3>Transmidiesel S.A.S</h3>
           <div class="sede-line"><span class="ic">📍</span> Diagonal 22 # 37 – 54, Av Crisanto Luque — Barrio El Bosque</div>
+          <div class="sede-line"><span class="ic">☎</span> Línea Nacional: +57 316 877 5212</div>
         </div>
         <div class="sede-map">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.26278235061307!2d-75.52076325154513!3d10.405325076502088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef6258ebc8a871b%3A0xaf5182d52c8b5cd9!2sTransmidiesel%20Cartagena!5e0!3m2!1ses!2sco!4v1790352927681!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -261,7 +265,7 @@ require __DIR__ . '/partials/navbar.php';
 <div class="cursor-ring" aria-hidden="true"></div>
 
 <?php
-$extraScripts = ['public.js'];
+$extraScripts = ['public.js', 'encuestas.js'];
 require __DIR__ . '/partials/scripts.php';
 ?>
 

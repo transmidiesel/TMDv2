@@ -23,6 +23,9 @@ $paginaActual = basename($_SERVER['PHP_SELF']);
     <a href="productos.php" class="<?= in_array($paginaActual, ['productos.php','productos-form.php']) ? 'active' : '' ?>">
       <span class="nav-icon">📦</span> Productos
     </a>
+    <a href="encuestas.php" class="<?= in_array($paginaActual, ['encuestas.php','encuesta-preguntas.php']) ? 'active' : '' ?>">
+      <span class="nav-icon">💬</span> Encuestas
+    </a>
     <a href="configuracion.php" class="<?= $paginaActual === 'configuracion.php' ? 'active' : '' ?>">
       <span class="nav-icon">⚙️</span> Configuración
     </a>

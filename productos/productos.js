@@ -347,8 +347,10 @@
 
   // ---------- Cargar datos ----------
   async function loadData() {
+    const urlFinal = API + 'productos.php';
+
     try {
-      const response = await fetch(API + 'productos.php', { cache: 'no-store' });
+      const response = await fetch(urlFinal, { cache: 'no-store' });
       if (!response.ok) throw new Error('HTTP ' + response.status);
 
       const data = await response.json();
@@ -361,7 +363,7 @@
       renderProducts(data.productos || []);
 
     } catch (error) {
-      console.warn('Error cargando productos:', error);
+      console.error('[productos] Error cargando:', error);
 
       exchangeRates = { COP: 4000, EUR: 0.92, MXN: 17.15 };
       renderProducts([
